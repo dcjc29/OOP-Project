@@ -3,8 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Registration</title>
 
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -17,27 +19,9 @@
   <!-- Custom styles for this template -->
   <link href="CSS/main.css" rel="stylesheet">
   
-  <script> 
-function validate()
-{ 
- var username = document.getElementById('inputUser').value; 
- var password = document.getElementById('inputPassword').value;
- 
- if (username==null || username=="")
- { 
- alert("Username cannot be blank"); 
- return false; 
- }
- else if(password==null || password=="")
- { 
- alert("Password cannot be blank"); 
- return false; 
- } 
-}
-</script> 
 </head>
 <body>
-  <!-- Navigation -->
+<!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" style="margin-bottom: 10rem">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="home.jsp">BidWars</a>
@@ -67,30 +51,45 @@ function validate()
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Sign In</h5>
-            <form class="form-signin" action="LoginServlet">
+            <h5 class="card-title text-center">Register</h5>
+            <form class="form-register" method="post" action="RegistrationServlet">
               <div class="form-label-group">
               <span style="color:red"><%=(request.getAttribute("errorMessage") == null) ? ""
  : request.getAttribute("errorMessage")%></span>
               	<label>Username</label><br>
                 <input type="text" id ="inputUser" name="inputUser" class="form-control" placeholder="Username"  autofocus>
-                
               </div>
-
               <div class="form-label-group">
               	<label>Password</label><br>
                 <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" >
-                
               </div>
-
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Remember password</label>
+               <div class="form-label-group">
+              	<label>Confirm Password</label><br>
+                <input type="password" id="inputPasswordC" name="inputPasswordC" class="form-control" placeholder="Confirm Password" >
               </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" onClick="validate()">Sign in</button>
-              <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fa fa-google mr-2"></i> Sign in with Google</button>
-              <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fa fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+                 <div class="form-label-group">
+              	<label>First Name</label><br>
+                <input type="text" id="inputFName" name="inputFName" class="form-control" placeholder="First Name" >
+              </div>
+                 <div class="form-label-group">
+              	<label>Last Name</label><br>
+                <input type="text" id="inputLName" name="inputLName" class="form-control" placeholder="Last Name" >
+              </div>
+                 <div class="form-label-group">
+              	<label>Email</label><br>
+                <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email" >
+              </div>
+                 <div class="form-label-group">
+              	<label>Address</label><br>
+                <textarea id="inputAddress" name="inputAddress" class="form-control"></textarea>
+              </div>
+                 <div class="form-label-group">
+              	<label>Mobile Number</label><br>
+                <input type="text" id="inputMobile" name="inputMobile" class="form-control" placeholder="Mobile Number" >
+              </div>
+              
+           
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" >Register</button>
             </form>
           </div>
         </div>
@@ -98,6 +97,7 @@ function validate()
     </div>
   </div>
   
+
 
 </body>
 </html>

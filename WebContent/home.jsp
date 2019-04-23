@@ -35,7 +35,7 @@
             <a class="nav-link js-scroll-trigger" href="login.jsp">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">Register</a>
+            <a class="nav-link js-scroll-trigger" href="registration.jsp">Register</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">My BidWars</a>

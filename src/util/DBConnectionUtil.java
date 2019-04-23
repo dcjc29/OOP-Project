@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class DBConnectionUtil{
 	static InputStream in = null;
-	
+	String msg = null;
 	private static Connection con;
 	public static final Properties props = new Properties();
 	
@@ -35,7 +35,7 @@ public class DBConnectionUtil{
 	}
 	
 	}catch(Exception e) {
-		String msg=e.toString();
+		 msg=e.toString();
 		
 	}
 	return con;
