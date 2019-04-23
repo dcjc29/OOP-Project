@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,21 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.user;
-import service.Login;
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/LogoutServlet")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,28 +29,13 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			user user=new user();
+		HttpSession session = request.getSession(false);
+		if(session!=null) {
+			session.invalidate();
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+			requestDispatcher.forward(request, response);
 			
-			user.setUserName(request.getParameter("inputUser"));
-			user.setUserPass(request.getParameter("inputPassword"));
-			
-			System.out.println(user.getUserName());
-			System.out.println(user.getUserPass());
-		
-			user=Login.login(user);
-			
-			if(user.isValid()) {
-				HttpSession session = request.getSession(true);
-				System.out.println(user.getName());
-				session.setAttribute("currentUser", user);
-				session.setAttribute("Name", user.getName());
-				response.sendRedirect("home.jsp");
-			}
-			else {
-				request.setAttribute("errorMessage", "Invalid Credentials!!!");
-				request.getRequestDispatcher("login.jsp").forward(request, response);
-			}
-			
+		}
 	}
 
 	/**

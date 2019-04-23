@@ -31,6 +31,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+      <%if(request.getSession(false).getAttribute("currentUser")==null){%>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="login.jsp">Sign In</a>
           </li>
@@ -38,11 +39,17 @@
             <a class="nav-link js-scroll-trigger" href="registration.jsp">Register</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Help Center</a>
+          </li>
+          <%}else{ %>
+          <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">My BidWars</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Help Center</a>
           </li>
+          	<li>Welcome <%out.println(session.getAttribute("Name"));%><br/><a href="LogoutServlet">Logout</a></li>
+          <%} %>
         </ul>
       </div>
     </div>
