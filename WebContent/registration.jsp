@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>BidWars</title>
+ 
 
   <!-- Bootstrap core CSS -->
   <link href="CSS/bootstrap.min.css" rel="stylesheet">

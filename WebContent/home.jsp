@@ -50,6 +50,7 @@
           </li>
           	<li>Welcome <%out.println(session.getAttribute("Name"));%><br/><a href="LogoutServlet">Logout</a></li>
           <%} %>
+          <li><a href="AddItem.jsp"><button type="button" class="btn btn-warning">List An Item</button></a></li>
         </ul>
       </div>
     </div>
@@ -75,7 +76,7 @@
       			<input type="text" class="form-control" id="inputKeyword" placeholder="Enter Keywords?">
    			 </div>
     		<div class="form-group">
-      			<button type="button" class="btn btn-success">
+      			<button type="button" class="btn btn-warning">
       				<i class="fa fa-search"></i>
     			</button>
     		</div>

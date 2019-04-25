@@ -35,16 +35,14 @@ public class LoginServlet extends HttpServlet {
 			
 			user.setUserName(request.getParameter("inputUser"));
 			user.setUserPass(request.getParameter("inputPassword"));
-			
-			System.out.println(user.getUserName());
-			System.out.println(user.getUserPass());
+
 		
 			user=Login.login(user);
 			
 			if(user.isValid()) {
 				HttpSession session = request.getSession(true);
-				System.out.println(user.getName());
-				session.setAttribute("currentUser", user);
+
+				session.setAttribute("currentUser", user.getId());
 				session.setAttribute("Name", user.getName());
 				response.sendRedirect("home.jsp");
 			}
