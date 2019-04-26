@@ -22,69 +22,8 @@
 
 <body id="page-top">
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="home.jsp">BidWars</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-      <%if(request.getSession(false).getAttribute("currentUser")==null){%>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="login.jsp">Sign In</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="registration.jsp">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">Help Center</a>
-          </li>
-          <%}else{ %>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">My BidWars</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">Help Center</a>
-          </li>
-          	<li>Welcome <%out.println(session.getAttribute("Name"));%><br/><a href="LogoutServlet">Logout</a></li>
-          <%} %>
-          <li><a href="AddItem.jsp"><button type="button" class="btn btn-warning">List An Item</button></a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <header class="bg-primary text-white">
-    <div class="container text-center">
-      <h1>Welcome to BidWars</h1>
-    </div>
-    <div class="row justify-content-center">
-   		<form>
-   		 <div class="form-row">
-   		     <div class="form-group">
-      		<select id="inputCategory" class="form-control">
-        		<option selected>Category</option>
-        		<option>Automobile</option>
-        		<option>Arts & Crafts</option>
-        		<option>Clothing</option>
-        		<option>Books</option>
-     		</select>
-   		 	</div>
-    		<div class="form-group">
-      			<input type="text" class="form-control" id="inputKeyword" placeholder="Enter Keywords?">
-   			 </div>
-    		<div class="form-group">
-      			<button type="button" class="btn btn-warning">
-      				<i class="fa fa-search"></i>
-    			</button>
-    		</div>
-  		</div>
-      	</form>
-      	</div>
-  </header>
-
+<jsp:include page="navbar.jsp"/>
+<jsp:include page="header.jsp"/>
   <section id="about">
     <div class="container">
       <div class="row">
@@ -124,13 +63,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; BidWars 2019</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+  
 
   <!-- Bootstrap core JavaScript -->
   <script src="jquery/jquery.min.js"></script>
