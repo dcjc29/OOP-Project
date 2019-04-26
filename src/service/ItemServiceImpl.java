@@ -5,15 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.item;
 import model.user;
 import util.DBConnectionUtil;
 
-public class itemLogic {
+public class ItemServiceImpl implements ItemService {
 
-	public static String addItem(item item, InputStream in, user seller) {
-		
+	@Override
+	public String addItem(item item,InputStream in,user seller) {
 		int i = 0;
 		String id=null;
 		String status=null;
@@ -86,5 +87,37 @@ public class itemLogic {
 		}
 		return status;
 }
+
 	
+
+	@Override
+	public Object getByID(Object id) {
+	
+		return null;
+	}
+
+	@Override
+	public Object update(Object id, Object t) {
+		
+		return null;
+	}
+
+	@Override
+	public void remove(Object id) {
+		
+
+	}
+
+	@Override
+	public ArrayList getAll() {
+		
+		return null;
+	}
+
+	@Override
+	public void add(Object t) {
+		
+		
+	}
+
 }
