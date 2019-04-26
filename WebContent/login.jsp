@@ -43,54 +43,54 @@ function validate()
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
-          <div class="card-body">
-            
-            <form class="border border-light p-5" action=LoginServlet>
+          <div class="card">
 
-    <p class="h4 mb-4 text-center">Sign in</p>
-
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Sign in</strong>
+    </h5>
 <span style="color:red"><%=(request.getAttribute("errorMessage") == null) ? ""
  : request.getAttribute("errorMessage")%></span>
+    <div class="card-body px-lg-5 pt-0">
 
-    <input type="text" id ="inputUser" name="inputUser" class="form-control mb-4" placeholder="Username">
+        <form class="md-form" style="color: #4285F4;" action="LoginServlet">
 
-    <input type="password" id="inputPassword" name="inputPassword" class="form-control mb-4" placeholder="Password">
+            <input type="text" id ="inputUser" name="inputUser" class="form-control" placeholder="Username">
 
-    <div class="d-flex justify-content-between">
-        <div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+
+            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password">
+
+
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <a href="">Forgot password?</a>
+                </div>
             </div>
-        </div>
-        <div>
-            <a href="">Forgot password?</a>
-        </div>
+
+
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" onClick="validate();">Sign in</button>
+
+            <div class="text-center">
+                <p>Not a member?
+                    <a href="registration.jsp">Register</a>
+                </p>
+
+                <p>or sign in with:</p>
+                <a type="button" class="btn-floating btn-fb btn-sm">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a type="button" class="btn-floating btn-tw btn-sm">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a type="button" class="btn-floating btn-li btn-sm">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a type="button" class="btn-floating btn-git btn-sm">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </form>
     </div>
-
-    <button class="btn btn-info btn-block my-4" type="submit" onClick="validate();">Sign in</button>
-
-    <div class="text-center">
-        <p>Not a member?
-            <a href="registration.jsp">Register</a>
-        </p>
-
-        <p>or sign in with:</p>
-        <a type="button" class="light-blue-text mx-2">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        <a type="button" class="light-blue-text mx-2">
-            <i class="fab fa-twitter"></i>
-        </a>
-        <a type="button" class="light-blue-text mx-2">
-            <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a type="button" class="light-blue-text mx-2">
-            <i class="fab fa-github"></i>
-        </a>
-    </div>
-</form>
-          </div>
+</div>
         </div>
       </div>
     </div>
@@ -103,6 +103,8 @@ function validate()
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="js/mdb.min.js"></script>
+
+
 
 
 
