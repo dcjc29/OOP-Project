@@ -14,7 +14,8 @@ import javax.servlet.http.Part;
 
 import model.item;
 import model.user;
-import service.itemLogic;
+import service.ItemService;
+import service.ItemServiceImpl;
 
 /**
  * Servlet implementation class AddItemServlet
@@ -48,6 +49,7 @@ public class AddItemServlet extends HttpServlet {
 		
 		item item = new item();
 		user seller = new user();
+		ItemService itemService = new ItemServiceImpl();
 		
 		seller.setId((int) request.getSession(false).getAttribute("currentUser"));
 		
@@ -64,11 +66,9 @@ public class AddItemServlet extends HttpServlet {
 		InputStream in = null;
 		
 		if(part != null ) {
-			long fileSize = part.getSize();
-			String fileContent = part.getContentType();
 			in = part.getInputStream();
 		}
-		String message = itemLogic.addItem(item,in,seller);
+		String message = itemService.addItem(item, in, seller);
 		
 		if(message.equals("success")) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
