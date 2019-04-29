@@ -89,7 +89,7 @@ var editor = new $.fn.dataTable.Editor( {
         
         <td>
         <button type="button" data-id="<%=item.getItemId()%>" data-role="update" class="btn btn-warning updateBtn" ><i class="fas fa-pencil-alt"></i></button>
-		<button type="button" data-id="<%=item.getItemId()%>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+		<button type="button" data-id="<%=item.getItemId()%>" class="btn btn-danger deleteBtn"><i class="fas fa-trash-alt"></i></button>
 		
         </td>
       </tr>
@@ -187,30 +187,31 @@ var editor = new $.fn.dataTable.Editor( {
 
 <div class="modal fade" id="modalDeleteItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-notify modal-danger" role="document">
-    <!--Content-->
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <!--Header-->
       <div class="modal-header text-center">
-        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Delete Item</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Delete Item</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="white-text">&times;</span>
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
-      <!--Body-->
-      <div class="modal-body">
-        <div class="md-form mb-5">
-          <h3>Do you want to delete selected item?</h3>
+      <form action="DeleteItemServlet" method="post">
+     
+      <div class="modal-body mx-3">
+       <div class="md-form mb-5">
+		<input type="hidden" class="form-control" id="iId" name="iId">
+		<h3>Do You Want To Delete This Item From Records?</h3>
         </div>
-        <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-success"type="button">Yes</button>
-         <button class="btn btn-danger"  data-dismiss="modal">Cancel</button>
       </div>
- </div>
- </div>
- </div>
- </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-success"type="submit">Yes</button>
+         <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
 
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
@@ -242,7 +243,17 @@ var editor = new $.fn.dataTable.Editor( {
             $("#itemCondition option[value="+itemCondition+"]").attr('selected','selected');
 			$('#modalUpdateItem').modal('toggle');
 			
-		})
+		});
+		
+		$('.deleteBtn').on('click',function(){
+			var id=$(this).data('id');
+			
+			
+			$('#iId').val(id);
+			console.log($('#iId').val());
+			$('#modalDeleteItem').modal('toggle');
+			
+		});
 	});
 
 </script>

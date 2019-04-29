@@ -162,6 +162,44 @@ public class ItemServiceImpl implements ItemService {
 		
 		
 	}
+	@Override
+	public String deleteItem(item item) {
+		int i = 0;
+		String status=null;
+		int itemId=item.getItemId();
+		
+		String query = "DELETE FROM items where id=?";
+		
+		if(conn!=null) {
+			
+			
+			try {
+			
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setInt(1, itemId);
+					i = ps.executeUpdate();
+					
+				}
+				
+			
+			catch (SQLException e) {
+				
+			}
+			
+			
+		
+		
+		if(i!=0) {
+			 status ="success";
+		}
+		else {
+			status="Something Is Not Right!!!";
+		}
+		
+	}
+	
+		return status;
+	}
 
 
 

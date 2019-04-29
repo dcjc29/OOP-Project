@@ -14,4 +14,6 @@ public interface ItemService extends SuperService{
 
 	String updateItem(item item);
 
+	String deleteItem(item item);
+
 }
