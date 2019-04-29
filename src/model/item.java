@@ -1,5 +1,7 @@
 package model;
 
+import java.io.InputStream;
+import java.sql.Blob;
 
 public class item {
 	private int itemId;
@@ -12,6 +14,7 @@ public class item {
 	private double minBid;
 	private String startDate;
 	private String endDate;
+	private Blob itemIn;
 	
 	public String getItemTitle() {
 		return itemTitle;
@@ -73,5 +76,11 @@ public class item {
 	}
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
+	}
+	public Blob getItemIn() {
+		return itemIn;
+	}
+	public void setItemIn(Blob blob) {
+		this.itemIn= blob;
 	}
 }

@@ -6,12 +6,13 @@
 <meta charset="UTF-8">
 <title>Add Item</title>
 
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
   <!-- Bootstrap core CSS -->
-  <link href="CSS/bootstrap.min.css" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <!-- Custom styles for this template -->
-  <link href="CSS/main.css" rel="stylesheet">
-  
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
@@ -74,7 +75,7 @@
 		<input type="date" class="form-control" id="startDate" name="startDate">
 	</div>
 	<div class="form-group">
-		<label>Bid End Date</label>
+		<label>Auction End Date</label>
 		<input type="date" class="form-control" id="endDate" name="endDate">
 	</div>
 	<button type="submit" class="btn btn-primary">Post Item</button>
@@ -85,16 +86,13 @@
         </div>
       </div>
 <%}else{response.sendRedirect("login.jsp");} %>
-<!-- Bootstrap core JavaScript -->
-  <script src="jquery/jquery.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
-
-  <!-- Plugin JavaScript -->
-  <script src="jquery/jquery.easing.min.js"></script>
-
-  <!-- Custom JavaScript for this theme -->
-  <script src="JS/main.js"></script>
-  
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
   <script type="text/javascript">
   		var slider = document.getElementById("noOfItems");
   		var output = document.getElementById("Output");

@@ -13,12 +13,15 @@ import util.DBConnectionUtil;
 
 public class ItemServiceImpl implements ItemService {
 
+	DBConnectionUtil db = new DBConnectionUtil();
+	Connection conn = db.getDBConnection();
+	
 	@Override
 	public String addItem(item item,InputStream in,user seller) {
 		int i = 0;
 		String id=null;
 		String status=null;
-		DBConnectionUtil db = new DBConnectionUtil();
+	
 		
 		
 
@@ -33,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
 		String endDate=item.getEndDate();
 		int sellerId=seller.getId();
 		
-		Connection conn = db.getDBConnection();
+		
 		String query1 = "select max(id) from items";
 		String query2 = "insert into items values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		
@@ -77,6 +80,7 @@ public class ItemServiceImpl implements ItemService {
 				
 			}
 			
+			
 		}
 		
 		if(i!=0) {
@@ -90,6 +94,45 @@ public class ItemServiceImpl implements ItemService {
 
 	
 
+	@Override
+	public ArrayList getItemsByUserId(int id) {
+		
+		
+		ArrayList<item> list=new ArrayList<item>();
+		
+		String query = "select * from items where sellerId=('"+id+"')";
+		if(conn!=null) {
+			try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs=ps.executeQuery();
+				int i=0;
+				
+				while(rs.next()) {
+					item item=new item();
+					item.setItemId(rs.getInt("id"));
+					item.setItemTitle(rs.getString("title"));
+					item.setNoOfItem(rs.getInt("noOfItems"));
+					item.setItemCondition(rs.getInt("condition"));
+					item.setCategory(rs.getString("category"));
+					item.setItemDescription(rs.getString("description"));
+					item.setItemDelivery(rs.getString("deliveryMethod"));
+					item.setMinBid(rs.getDouble("minBid"));
+					item.setStartDate(rs.getString("startDate"));
+					item.setEndDate(rs.getString("endDate"));
+					item.setItemIn(rs.getBlob("itemImage"));
+					
+					list.add(i,item);
+					i++;
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return list;
+	}
 	@Override
 	public Object getByID(Object id) {
 	
