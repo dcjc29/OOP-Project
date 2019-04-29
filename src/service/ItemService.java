@@ -12,4 +12,6 @@ public interface ItemService extends SuperService{
 
 	ArrayList getItemsByUserId(int id);
 
+	String updateItem(item item);
+
 }

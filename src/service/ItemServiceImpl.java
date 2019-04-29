@@ -112,7 +112,7 @@ public class ItemServiceImpl implements ItemService {
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
 					item.setNoOfItem(rs.getInt("noOfItems"));
-					item.setItemCondition(rs.getInt("condition"));
+					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
 					item.setItemDelivery(rs.getString("deliveryMethod"));
@@ -163,4 +163,69 @@ public class ItemServiceImpl implements ItemService {
 		
 	}
 
+
+
+	@Override
+	public String updateItem(item item) {
+		
+	
+		int i=0;
+		String status=null;
+		
+		int itemId=item.getItemId();
+		String itemTitle=item.getItemTitle();
+		int noOfItem=item.getNoOfItem();
+		int itemCondition=item.getItemCondition();
+		String Category=item.getCategory();
+		String itemDescription=item.getItemDescription();
+		String itemDelivery=item.getItemDelivery();
+		double minBid=item.getMinBid();
+		String startDate=item.getStartDate();
+		String endDate=item.getEndDate();
+		
+	
+		String query = "UPDATE items SET title=?,noOfItems=?,itemsCondition=?,category=?,description=?,deliveryMethod=?,minBid=?,startDate=?,endDate=? where id=?";
+		
+		if(conn!=null) {
+			
+			
+			try {
+			
+					PreparedStatement ps = conn.prepareStatement(query);
+					
+					ps.setString(1, itemTitle);
+					ps.setInt(2, noOfItem);
+					ps.setInt(3, itemCondition);
+					ps.setString(4, Category );
+					ps.setString(5, itemDescription);
+					ps.setString(6, itemDelivery);
+					ps.setDouble(7, minBid);
+					ps.setString(8, startDate);
+					ps.setString(9, endDate);
+					ps.setInt(10, itemId);
+					
+				
+					i = ps.executeUpdate();
+					
+				}
+				
+			
+			catch (SQLException e) {
+				
+			}
+			
+			
+		
+		
+		if(i!=0) {
+			 status ="success";
+		}
+		else {
+			status="Something Is Not Right!!!";
+		}
+		
+	}
+	
+		return status;
+	}
 }

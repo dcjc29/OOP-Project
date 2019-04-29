@@ -54,7 +54,6 @@ var editor = new $.fn.dataTable.Editor( {
 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
       <tr>
-        <th class="th-sm">Item Id</th>
         <th class="th-sm">Item Image</th>
         <th class="th-sm">Item Title</th>
         <th class="th-sm">No Of Items</th>
@@ -75,21 +74,23 @@ var editor = new $.fn.dataTable.Editor( {
 	if(list!=null){
 		for(item item:list){
 %>
-	 <tr>
-        <td><%out.println(item.getItemId());%></td>
+	 <tr id="<%=item.getItemId()%>">
         <td><%%></td>
-        <td><%out.println(item.getItemTitle());%></td>
-        <td><%out.println(item.getNoOfItem());%></td>
-        <td><%out.println(item.getItemDescription());%></td>
-        <td><%out.println(item.getItemCondition());%></td>
-        <td><%out.println(item.getCategory());%></td>
-        <td><%out.println(item.getItemDelivery());%></td>
-        <td><%out.println(item.getMinBid());%></td>
-        <td><%out.println(item.getStartDate());%></td>
-        <td><%out.println(item.getEndDate());%></td>
+        <td data-target="itemTitle"><%out.println(item.getItemTitle());%></td>
+        <td data-target="noOfItems"><%out.println(item.getNoOfItem());%></td>
+        <td data-target="itemDescription"><%out.println(item.getItemDescription());%></td>
+        <td data-target="itemCondition"><%out.println(item.getItemCondition());%></td>
+        <td data-target="category"><%out.println(item.getCategory());%></td>
+        <td data-target="itemDelivery"><%out.println(item.getItemDelivery());%></td>
+        <td data-target="minBid"><%out.println(item.getMinBid());%></td>
+        <td data-target="startDate"><%out.println(item.getStartDate());%></td>
+        <td data-target="endDate"><%out.println(item.getEndDate());%></td>
+        
+        
         <td>
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalUpdateItem"><i class="fas fa-pencil-alt"></i></button>
-		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteItem"><i class="fas fa-trash-alt"></i></button>
+        <button type="button" data-id="<%=item.getItemId()%>" data-role="update" class="btn btn-warning updateBtn" ><i class="fas fa-pencil-alt"></i></button>
+		<button type="button" data-id="<%=item.getItemId()%>" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+		
         </td>
       </tr>
 <%
@@ -114,22 +115,23 @@ var editor = new $.fn.dataTable.Editor( {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
-      <div class="md-form mb-5">
+      <form action="UpdateItemServlet" method="post">
+     
+      <div class="modal-body mx-3">
+       <div class="md-form mb-5">
 		<input type="hidden" class="form-control" id="itemId" name="itemId">
         </div>
-      <div class="modal-body mx-3">
         <div class="md-form mb-5">
-        <label>Item Title</label>
-		<input type="text" class="form-control" id="itemTitle" name="itemTitle">
+        <label>Item Title</label><br>
+		<input type="text" class="form-control" id="itemTitle" name="itemTitle" required>
         </div>
         <div class="md-form mb-5">
-          <label>No Of Items</label> : &nbsp;<span id="Output"></span>
-		<input type="range" min="1"  max="100" value="1" id="noOfItems" name="noOfItems" class="form-control">
+          <label>No Of Items</label>
+		<input type="text" min="1"  max="100" value="1" id="noOfItems" name="noOfItems" class="form-control" required>
         </div>
         <div class="md-form mb-5">
-          <label>Item Category</label>
-		<select class="form-control" id="itemCategory" name="itemCategory">
+          <label>Item Category</label><br><br>
+		<select class="form-control" id="itemCategory" name="itemCategory" required>
 			<option>Select Category</option>
 			<option value="Automobile">Automobile</option>
 			<option value="Arts">Arts</option>
@@ -137,42 +139,38 @@ var editor = new $.fn.dataTable.Editor( {
 		</select>
         </div>
         <div class="md-form mb-5">
-          <label>Item Condition</label>
-		<select class="form-control" id="itemCondition" name="itemCondition">
-			<option>Select Condition</option>
+          <label>Item Condition</label><br><br>
+		<select class="form-control" id="itemCondition" name="itemCondition" required>
+			<option selected>Select Condition</option>
 			<option value="1">Brand New With Tags</option>
 			<option value="2">Brand New Without Tags</option>
 			<option value="3">Used</option>
 		</select>
         </div>
         <div class="md-form mb-5">
-          <label>Item Description</label>
-		<textarea class="form-control" id="itemDescription" name="itemDescription"></textarea>
+          <label>Item Description</label><br><br>
+		<textarea class="form-control" id="itemDescription" name="itemDescription" required></textarea>
         </div>
         <div class="md-form mb-5">
-          <label>Item Image</label>
-		<input type="file" class="form-control-file" id="itemImage" name="itemImage">
-        </div>
-        <div class="md-form mb-5">
-          <label>Shiping Method</label>
-		<select class="form-control" id="itemDelivery" name="itemDelivery">
+          <label>Shiping Method</label><br><br>
+		<select class="form-control" id="itemDelivery" name="itemDelivery" required>
 			<option>Select Delivery Method</option>
-			<option value="Air Mail Only">Air Mail Only</option>
-			<option value="Sea Mail Only">Sea Mail</option>
+			<option value="Air">Air Mail Only</option>
+			<option value="Sea">Sea Mail</option>
 			<option value="DHL">DHL</option>
 		</select>
         </div>
         <div class="md-form mb-5">
-          <label>Minimum Bid</label>
-		<input type="text" class="form-control" id="minimumBid" name="minimumBid">
+          <label>Minimum Bid</label><br>
+		<input type="text" class="form-control" id="minimumBid" name="minimumBid" required>
         </div>
         <div class="md-form mb-5">
-        <label>Auction Start Date</label>
-		<input type="date" class="form-control" id="startDate" name="startDate">
+        <label>Auction Start Date</label><br>
+		<input type="date" class="form-control" id="startDate" name="startDate" required>
         </div>
         <div class="md-form mb-5">
-        <label>Auction End Date</label>
-		<input type="date" class="form-control" id="endDate" name="endDate">
+        <label>Auction End Date</label><br>
+		<input type="date" class="form-control" id="endDate" name="endDate" required>
         </div>
         
 
@@ -189,7 +187,7 @@ var editor = new $.fn.dataTable.Editor( {
 
 <div class="modal fade" id="modalDeleteItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
+  <div class="modal-dialog modal-notify modal-danger" role="document">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
@@ -207,7 +205,7 @@ var editor = new $.fn.dataTable.Editor( {
         </div>
         <div class="modal-footer d-flex justify-content-center">
         <button class="btn btn-success"type="button">Yes</button>
-         <button class="btn btn-danger"  data-dismiss="modal" type="button">No</button>
+         <button class="btn btn-danger"  data-dismiss="modal">Cancel</button>
       </div>
  </div>
  </div>
@@ -220,5 +218,33 @@ var editor = new $.fn.dataTable.Editor( {
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.7/js/mdb.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.updateBtn').on('click',function(){
+			var id=$(this).data('id');
+			var itemTitle=$('#'+id).children('td[data-target=itemTitle]').text();
+			var noOfItems=$('#'+id).children('td[data-target=noOfItems]').text();
+			var itemDescription=$('#'+id).children('td[data-target=itemDescription]').text();
+			var itemCondition=$('#'+id).children('td[data-target=itemCondition]').text();
+			var category=$('#'+id).children('td[data-target=category]').text();
+			var itemDelivery=$('#'+id).children('td[data-target=itemDelivery]').text();
+			var minBid=$('#'+id).children('td[data-target=minBid]').text();
+			
+			$('#itemId').val(id);
+			$('#itemTitle').val(itemTitle);
+			$('#noOfItems').val(noOfItems);
+			$('#minimumBid').val(minBid);
+			$('#itemDelivery').val(itemDelivery);
+			$('#itemDescription').val(itemDescription);
+           	$("#itemCategory option[value="+category+"]").attr('selected','selected');
+           	$("#itemDelivery option[value="+itemDelivery+"]").attr('selected','selected');
+            $("#itemCondition option[value="+itemCondition+"]").attr('selected','selected');
+			$('#modalUpdateItem').modal('toggle');
+			
+		})
+	});
+
+</script>
 </body>
 </html>
