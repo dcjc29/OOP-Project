@@ -6,7 +6,7 @@ import util.DBConnectionUtil;
 
 public class Register {
 
-	public static String register(user user) {
+	public static String register(user user, byte[] salt) {
 			
 		int i = 0;
 		String id=null;
@@ -23,7 +23,7 @@ public class Register {
 			
 			Connection conn = db.getDBConnection();
 			String query1 = "select max(id) from users";
-			String query2 = "insert into users values(?,?,?,?,?,?,?,?,?,?,?)";
+			String query2 = "insert into users values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 			if(conn!=null) {
 				
@@ -34,7 +34,12 @@ public class Register {
 					ResultSet rs=pre.executeQuery();
 					while(rs.next()) {
 						
-						id=rs.getString(1);
+						if(rs.getString(1)!= null) {
+							id = rs.getString(1);
+						}
+						else {
+							id = "0";
+						}
 						
 					}
 					int uId=Integer.parseInt(id)+1;
@@ -50,6 +55,9 @@ public class Register {
 					ps.setString(9, address[2]);
 					ps.setString(10, address[3]);
 					ps.setString(11, mobile);
+					ps.setBytes(12, salt);
+			
+			
 					
 				
 					

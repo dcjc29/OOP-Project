@@ -35,7 +35,7 @@
 
     <div class="card-body px-lg-5 pt-0">
 
-        <form class="md-form" style="color: #4285F4;" action="RegistrationServlet">
+        <form class="md-form" style="color: #4285F4;" action="RegistrationServlet" method="post">
 
 
             <input type="text" id ="inputUser" name="inputUser" class="form-control" placeholder="Username">

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.user;
 import service.Register;
+import util.security;
 
 /**
  * Servlet implementation class RegistrationServlet
@@ -38,11 +39,16 @@ public class RegistrationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		security security = new security();
+		
+		String input = request.getParameter("inputPassword");
+		byte[] salt = security.createSalt();
+		String password = security.generateHash(input, salt);
 		
 		user user = new user();
 		
 		user.setUserName(request.getParameter("inputUser"));
-		user.setUserPass(request.getParameter("inputPassword"));
+		user.setUserPass(password);
 		user.setName(request.getParameter("inputFName")+" "+request.getParameter("inputLName"));
 		user.setEmail(request.getParameter("inputEmail"));
 		user.setAddress(request.getParameter("inputAddress"));
@@ -50,7 +56,7 @@ public class RegistrationServlet extends HttpServlet {
 		
 
 		
-		String message = Register.register(user);
+		String message = Register.register(user,salt);
 		
 		if(message.equals("success")) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);

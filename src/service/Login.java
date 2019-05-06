@@ -78,5 +78,29 @@ public class Login{
 		}
 	return user;
 	}
+
+	public static byte[] getSalt(String userName) {
+		byte[] userSalt = null;
+		DBConnectionUtil db = new DBConnectionUtil();
+		Connection conn = db.getDBConnection();
+		String query = "select * from users where userName=?";
+		if(conn!=null) {
+			try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, userName);
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					userSalt=rs.getBytes(12);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		return userSalt;
+	}
 	
 }

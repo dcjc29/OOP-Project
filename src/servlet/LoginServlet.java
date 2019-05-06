@@ -1,6 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import javax.annotation.Generated;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import model.user;
 import service.Login;
+import util.security;
 
 /**
  * Servlet implementation class LoginServlet
@@ -31,12 +37,23 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			user user=new user();
 			
-			user.setUserName(request.getParameter("inputUser"));
-			user.setUserPass(request.getParameter("inputPassword"));
+			
+	}
 
-		
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		user user=new user();
+		security security = new security();
+		String input = request.getParameter("inputPassword");
+		byte[] salt = Login.getSalt(request.getParameter("inputUser"));
+		if(salt!=null) {
+			String password = security.generateHash(input,salt);
+			user.setUserName(request.getParameter("inputUser"));
+			user.setUserPass(password);
 			user=Login.login(user);
 			
 			if(user.isValid()) {
@@ -47,18 +64,19 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("home.jsp");
 			}
 			else {
-				request.setAttribute("errorMessage", "Invalid Credentials!!!");
+				request.setAttribute("errorMessage", "Invalid Password!!!");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 			
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		}
+		else {
+			request.setAttribute("errorMessage", "Invalid Username!!!");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+		
+		
+		
+		
 	}
 
 }
