@@ -10,10 +10,16 @@ public interface ItemService extends SuperService{
 
 	String addItem(item item, InputStream in, user seller);
 
-	ArrayList getItemsByUserId(int id);
+	ArrayList<item> getItemsByUserId(int id);
 
 	String updateItem(item item);
 
 	String deleteItem(item item);
+
+	ArrayList<item> getItemsBySearch(String category, String keywords);
+
+	ArrayList<item> getItemsBySearch(String keywords);
+
+	ArrayList<item> getItemsByCategory(String category);
 
 }

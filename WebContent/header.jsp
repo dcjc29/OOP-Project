@@ -13,22 +13,25 @@
       <h1>Welcome to BidWars</h1>
     </div>
     <div class="row justify-content-center">
-   		<form>
+   		<form action="SearchServlet">
    		 <div class="form-row">
    		     <div class="form-group">
-      		<select id="inputCategory" class="form-control">
-        		<option selected>Category</option>
-        		<option>Automobile</option>
-        		<option>Arts & Crafts</option>
-        		<option>Clothing</option>
-        		<option>Books</option>
+      		<select id="inputCategory" name="inputCategory" class="form-control">
+        	<option value="">Category</option>
+        	<option value="Automobile">Automobile</option>
+			<option value="Arts">Arts</option>
+			<option value="Sports">Sports</option>
+			<option value="Gardeneing">Gardening</option>
+			<option value="Electronics">Electronics</option>
+			<option value="Bags">Bags</option>
+			<option value="Toys">Toys</option>
      		</select>
    		 	</div>
     		<div class="form-group">
-      			<input type="text" class="form-control" id="inputKeyword" placeholder="Enter Keywords?">
+      			<input type="text" class="form-control" id="inputKeyword" name="inputKeyword" placeholder="Enter Keywords?">
    			 </div>
     		<div class="form-group">
-      			<button type="button" class="btn btn-warning">
+      			<button type="submit" class="btn btn-warning">
       				<i class="fa fa-search"></i>
     			</button>
     		</div>
