@@ -38,6 +38,10 @@
 			<option value="Automobile">Automobile</option>
 			<option value="Arts">Arts</option>
 			<option value="Sports">Sports</option>
+			<option value="Gardeneing">Gardening</option>
+			<option value="Electronics">Electronics</option>
+			<option value="Bags">Bags</option>
+			<option value="Toys">Toys</option>
 		</select>
 	</div>
 	<div class="form-group">
@@ -61,9 +65,9 @@
 		<label>Shiping Method</label>
 		<select class="form-control" id="itemDelivery" name="itemDelivery">
 			<option>Select Delivery Method</option>
-			<option value="Air Mail Only">Air Mail Only</option>
-			<option value="Sea Mail Only">Sea Mail</option>
+			<option value="Mail">Mail Only</option>
 			<option value="DHL">DHL</option>
+			<option value="Other">Other</option>
 		</select>
 	</div>
 	<div class="form-group">
