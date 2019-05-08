@@ -1,8 +1,10 @@
-<%@page import="java.io.OutputStream"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
-<%@page import="model.item"%>
+<%@page import="java.sql.*"%>
+<%@page import="model.Item"%>
+<%@page import = "java.util.Base64" %>
   
 <!DOCTYPE html>
 <html>
@@ -27,26 +29,22 @@
  
  
  <%
-	
-	ArrayList<item> list =(ArrayList<item>) request.getAttribute("items"); 
-	if(list!=null){
-		for(item item:list){
-%>
+    	ArrayList<Item> list =(ArrayList<Item>) request.getAttribute("items"); 
+    	if(list!=null){
+    		for(Item item:list){
+    %>
  
 <!-- Card Narrower -->
 <div class="card card-cascade narrower">
 
   <!-- Card image -->
   <div class="view view-cascade overlay">
-    <div>
-    	<%
-    	/*byte byteArray[]=item.getItemIn().getBytes(1,(int) item.getItemIn().length());
-    	OutputStream os = response.getOutputStream();
-    	os.write(byteArray);
-    	os.flush();
-    	os.close();*/
-    	%>
-    </div>
+  <%
+  byte[] imgData = item.getItemIn().getBytes(1,(int) item.getItemIn().length());
+  String encode = Base64.getEncoder().encodeToString(imgData);
+  request.setAttribute("imgBase", encode);
+  %>
+    <img class = "dec" src="data:image/jpeg;base64,${imgBase}">
     <a>
       <div class="mask rgba-white-slight"></div>
     </a>
@@ -62,13 +60,17 @@
     <!-- Text -->
     <p class="card-text"><%out.println(item.getItemDescription());%></p>
     <!-- Button -->
-    <a class="btn btn-unique">Bid Item</a>
-     <a class="btn btn-unique">View Item</a>
-
+  	<%if(request.getSession(false).getAttribute("currentUser")!=null){%>
+	 		<a class="btn btn-unique" href="item.jsp?id=<%=item.getItemId()%>">Bid Item</a>
+	 	<%}else{%>
+	 		<button class="btn btn-unique" disabled>Bid Item</button>
+	 	<%} %>
+    
+    
   </div>
 
   <!-- Card footer -->
-  <div class="card-footer text-muted text-center">BidWars</div>
+  <div class="card-footer text-muted text-center" >BidWars</div>
 
 </div>
 <!-- Card Narrower -->
@@ -80,7 +82,7 @@
 
 %>
  
- 
+
  
  
  
@@ -96,6 +98,7 @@
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="js/mdb.min.js"></script>
+
 
 </body>
 </html>

@@ -7,9 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.item;
-import model.user;
+import com.mysql.jdbc.Blob;
+
+import model.Item;
+import model.User;
+import sun.misc.BASE64Encoder;
 import util.DBConnectionUtil;
+
 
 public class ItemServiceImpl implements ItemService {
 
@@ -17,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
 	Connection conn = db.getDBConnection();
 	
 	@Override
-	public String addItem(item item,InputStream in,user seller) {
+	public String addItem(Item item,InputStream in,User seller) {
 		int i = 0;
 		String id=null;
 		String status=null;
@@ -98,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
 	public ArrayList getItemsByUserId(int id) {
 		
 		
-		ArrayList<item> list=new ArrayList<item>();
+		ArrayList<Item> list=new ArrayList<Item>();
 		
 		String query = "select * from items where sellerId=('"+id+"')";
 		if(conn!=null) {
@@ -108,7 +112,7 @@ public class ItemServiceImpl implements ItemService {
 				int i=0;
 				
 				while(rs.next()) {
-					item item=new item();
+					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
 					item.setNoOfItem(rs.getInt("noOfItems"));
@@ -135,7 +139,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	@Override
-	public String deleteItem(item item) {
+	public String deleteItem(Item item) {
 		int i = 0;
 		String status=null;
 		int itemId=item.getItemId();
@@ -176,7 +180,7 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public String updateItem(item item) {
+	public String updateItem(Item item) {
 		
 	
 		int i=0;
@@ -242,9 +246,9 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public ArrayList<item> getItemsBySearch(String category, String keywords) {
+	public ArrayList<Item> getItemsBySearch(String category, String keywords) {
 			
-				ArrayList<item> list=new ArrayList<item>();
+				ArrayList<Item> list=new ArrayList<Item>();
 				
 				String query = "select * from items where category=('"+category+"') AND (title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%'))";
 				if(conn!=null) {
@@ -254,7 +258,7 @@ public class ItemServiceImpl implements ItemService {
 						int i=0;
 						
 						while(rs.next()) {
-							item item=new item();
+							Item item=new Item();
 							item.setItemId(rs.getInt("id"));
 							item.setItemTitle(rs.getString("title"));
 							item.setNoOfItem(rs.getInt("noOfItems"));
@@ -283,9 +287,9 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public ArrayList<item> getItemsBySearch(String keywords) {
+	public ArrayList<Item> getItemsBySearch(String keywords) {
 
-		ArrayList<item> list=new ArrayList<item>();
+		ArrayList<Item> list=new ArrayList<Item>();
 		
 		String query = "select * from items where title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%')";
 		if(conn!=null) {
@@ -296,7 +300,7 @@ public class ItemServiceImpl implements ItemService {
 				int i=0;
 				
 				while(rs.next()) {
-					item item=new item();
+					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
 					item.setNoOfItem(rs.getInt("noOfItems"));
@@ -325,10 +329,10 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public ArrayList<item> getItemsByCategory(String category) {
+	public ArrayList<Item> getItemsByCategory(String category) {
 	
 		
-		ArrayList<item> list=new ArrayList<item>();
+		ArrayList<Item> list=new ArrayList<Item>();
 		
 		String query = "select * from items where category=('"+category+"')";
 		if(conn!=null) {
@@ -338,7 +342,7 @@ public class ItemServiceImpl implements ItemService {
 				int i=0;
 				
 				while(rs.next()) {
-					item item=new item();
+					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
 					item.setNoOfItem(rs.getInt("noOfItems"));
@@ -375,9 +379,35 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public Object getByID(Object id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Item getItemByID(int id) {
+		
+		String query = "select * from items where id=('"+id+"')";
+		Item item=new Item();
+		if(conn!=null) {
+			try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs=ps.executeQuery();
+				while(rs.next()) {	
+					item.setItemId(rs.getInt("id"));
+					item.setItemTitle(rs.getString("title"));
+					item.setNoOfItem(rs.getInt("noOfItems"));
+					item.setItemCondition(rs.getInt("itemsCondition"));
+					item.setCategory(rs.getString("category"));
+					item.setItemDescription(rs.getString("description"));
+					item.setItemDelivery(rs.getString("deliveryMethod"));
+					item.setMinBid(rs.getDouble("minBid"));
+					item.setStartDate(rs.getString("startDate"));
+					item.setEndDate(rs.getString("endDate"));
+					item.setItemIn(rs.getBlob("itemImage"));
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return item;
 	}
 
 
@@ -403,4 +433,16 @@ public class ItemServiceImpl implements ItemService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	@Override
+	public Object getByID(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
 }

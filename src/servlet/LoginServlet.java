@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.user;
+import model.User;
 import service.Login;
 import util.security;
 
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		user user=new user();
+		User user=new User();
 		security security = new security();
 		String input = request.getParameter("inputPassword");
 		byte[] salt = Login.getSalt(request.getParameter("inputUser"));

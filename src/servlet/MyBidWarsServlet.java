@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.item;
+import model.Item;
 import service.ItemService;
 import service.ItemServiceImpl;
 
@@ -38,7 +38,7 @@ public class MyBidWarsServlet extends HttpServlet {
 			
 			ItemService itemService = new ItemServiceImpl();
 	
-			ArrayList<item> list =itemService.getItemsByUserId(id);
+			ArrayList<Item> list =itemService.getItemsByUserId(id);
 			
 			request.setAttribute("items", list);
 			request.getRequestDispatcher("myItems.jsp").forward(request, response);

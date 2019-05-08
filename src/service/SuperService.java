@@ -2,6 +2,8 @@ package service;
 
 import java.util.ArrayList;
 
+import model.Item;
+
 public interface SuperService<T,ID> {
 	 	public void add(T t);
 
@@ -12,4 +14,6 @@ public interface SuperService<T,ID> {
 	    public void remove(ID id);
 
 	    public ArrayList<T> getAll();
+
+		
 }

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import model.item;
-import model.user;
+import model.Item;
+import model.User;
 import service.ItemService;
 import service.ItemServiceImpl;
 
@@ -47,8 +47,8 @@ public class AddItemServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-		item item = new item();
-		user seller = new user();
+		Item item = new Item();
+		User seller = new User();
 		ItemService itemService = new ItemServiceImpl();
 		
 		seller.setId((int) request.getSession(false).getAttribute("currentUser"));

@@ -3,7 +3,7 @@ package model;
 import java.io.InputStream;
 import java.sql.Blob;
 
-public class item {
+public class Item {
 	private int itemId;
 	private String itemTitle;
 	private int noOfItem;
@@ -83,4 +83,5 @@ public class item {
 	public void setItemIn(Blob blob) {
 		this.itemIn= blob;
 	}
+	
 }

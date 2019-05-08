@@ -4,7 +4,7 @@ package service;
 
 import java.sql.*;
 
-import model.user;
+import model.User;
 import util.DBConnectionUtil;
 
 
@@ -15,7 +15,7 @@ public class Login{
 	static String dbName = null;
 	static String dbPass = null;
 
-	public static user login(user user) {
+	public static User login(User user) {
 		
 		DBConnectionUtil db = new DBConnectionUtil();
 		

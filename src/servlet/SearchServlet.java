@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.item;
+import model.Item;
 import service.ItemService;
 import service.ItemServiceImpl;
 
@@ -38,7 +39,7 @@ public class SearchServlet extends HttpServlet {
 		
 
 		ItemService itemService = new ItemServiceImpl();
-		ArrayList<item> list = new ArrayList<item>();
+		ArrayList<Item> list = new ArrayList<Item>();
 		
 		if(!category.isEmpty() && !keywords.isEmpty()) {
 			list =itemService.getItemsBySearch(category,keywords);

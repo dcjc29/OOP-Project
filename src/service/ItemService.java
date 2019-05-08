@@ -3,23 +3,25 @@ package service;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import model.item;
-import model.user;
+import model.Item;
+import model.User;
 
 public interface ItemService extends SuperService{
 
-	String addItem(item item, InputStream in, user seller);
+	String addItem(Item item, InputStream in, User seller);
 
-	ArrayList<item> getItemsByUserId(int id);
+	ArrayList<Item> getItemsByUserId(int id);
 
-	String updateItem(item item);
+	String updateItem(Item item);
 
-	String deleteItem(item item);
+	String deleteItem(Item item);
 
-	ArrayList<item> getItemsBySearch(String category, String keywords);
+	ArrayList<Item> getItemsBySearch(String category, String keywords);
 
-	ArrayList<item> getItemsBySearch(String keywords);
+	ArrayList<Item> getItemsBySearch(String keywords);
 
-	ArrayList<item> getItemsByCategory(String category);
+	ArrayList<Item> getItemsByCategory(String category);
+
+	Item getItemByID(int id);
 
 }

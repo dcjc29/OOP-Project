@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
-<%@page import="model.item"%>    
+<%@page import="model.Item"%>    
+<%@page import = "java.util.Base64" %>
 
 <!DOCTYPE html>
 <html>
@@ -69,13 +70,16 @@ var editor = new $.fn.dataTable.Editor( {
     </thead>
     <tbody>
 <%
-	
-	ArrayList<item> list =(ArrayList<item>) request.getAttribute("items"); 
+	ArrayList<Item> list =(ArrayList<Item>) request.getAttribute("items"); 
 	if(list!=null){
-		for(item item:list){
+		for(Item item:list){
+	 byte[] imgData = item.getItemIn().getBytes(1,(int) item.getItemIn().length());
+		     String encode = Base64.getEncoder().encodeToString(imgData);
+		     request.setAttribute("imgBase", encode);
 %>
 	 <tr id="<%=item.getItemId()%>">
-        <td><%%></td>
+      
+        <td> <img src="data:image/jpeg;base64,${imgBase}" height="120" width="120"></td>
         <td data-target="itemTitle"><%out.println(item.getItemTitle());%></td>
         <td data-target="noOfItems"><%out.println(item.getNoOfItem());%></td>
         <td data-target="itemDescription"><%out.println(item.getItemDescription());%></td>

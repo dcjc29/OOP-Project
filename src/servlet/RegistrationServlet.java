@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.user;
+import model.User;
 import service.Register;
 import util.security;
 
@@ -45,7 +45,7 @@ public class RegistrationServlet extends HttpServlet {
 		byte[] salt = security.createSalt();
 		String password = security.generateHash(input, salt);
 		
-		user user = new user();
+		User user = new User();
 		
 		user.setUserName(request.getParameter("inputUser"));
 		user.setUserPass(password);

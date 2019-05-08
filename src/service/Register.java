@@ -1,12 +1,12 @@
 package service;
 
 import java.sql.*;
-import model.user;
+import model.User;
 import util.DBConnectionUtil;
 
 public class Register {
 
-	public static String register(user user, byte[] salt) {
+	public static String register(User user, byte[] salt) {
 			
 		int i = 0;
 		String id=null;

@@ -28,6 +28,8 @@
       <li class="nav-item">
         <a class="nav-link" href="AddItem.jsp">Sell</a>
       </li>
+      
+        	<%if(request.getSession(false).getAttribute("currentUser")!=null){%>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">My Bidwars
@@ -36,6 +38,8 @@
           <a class="dropdown-item" href="#">My Bids</a>
           <a class="dropdown-item" href="MyBidWarsServlet?value=myItems" name="myRequest" value="myItems" >My Items</a>
           <a class="dropdown-item" href="#">My Payments</a>
+          
+          <%}%>
         </div>
       </li>
     </ul>
@@ -63,11 +67,12 @@
  			<a class="dropdown-item" href="LogoutServlet">Logout</a>
           	<a class="dropdown-item" href="#">Change Password</a>
           	<a class="dropdown-item" href="#">My Profile</a>
- 	<%}else{ %>
+     	<%}else{ %>
  			<a class="dropdown-item" href="login.jsp">Login For More Options</a>
  	<%} %>
-        </div>
+ 	    	 </div>
       </li>
+     
     </ul>
   </div>
 </nav>
