@@ -24,4 +24,6 @@ public interface ItemService extends SuperService{
 
 	Item getItemByID(int id);
 
+	ArrayList<Item> getRecentItems();
+
 }

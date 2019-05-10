@@ -410,6 +410,45 @@ public class ItemServiceImpl implements ItemService {
 		return item;
 	}
 
+	@Override
+	public ArrayList<Item> getRecentItems() {
+		
+		ArrayList<Item> list=new ArrayList<Item>();
+		
+		String query = "select * from items order by id DESC LIMIT 6";
+		
+		if(conn!=null) {
+			
+			try {
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs=ps.executeQuery();
+				int i=0;
+				while(rs.next()) {	
+					Item item=new Item();
+					item.setItemId(rs.getInt("id"));
+					item.setItemTitle(rs.getString("title"));
+					item.setNoOfItem(rs.getInt("noOfItems"));
+					item.setItemCondition(rs.getInt("itemsCondition"));
+					item.setCategory(rs.getString("category"));
+					item.setItemDescription(rs.getString("description"));
+					item.setItemDelivery(rs.getString("deliveryMethod"));
+					item.setMinBid(rs.getDouble("minBid"));
+					item.setStartDate(rs.getString("startDate"));
+					item.setEndDate(rs.getString("endDate"));
+					item.setItemIn(rs.getBlob("itemImage"));
+					list.add(i,item);
+					i++;
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return list;
+	}
+
 
 
 	@Override

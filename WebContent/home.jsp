@@ -1,5 +1,16 @@
+
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.*"%>
+<%@page import="model.Item"%>    
+<%@page import="service.ItemService"%>
+<%@page import="service.ItemServiceImpl"%>
+<%@page import="model.Bid"%>    
+<%@page import="service.BidService"%>
+<%@page import="service.BidServiceImpl"%>
+<%@page import = "java.util.Base64" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,41 +39,154 @@
   <section id="about">
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>About this page</h2>
-          <p class="lead">This is a great place to talk about your webpage. This template is purposefully unstyled so you can use it as a boilerplate or starting point for you own landing page designs! This template features:</p>
-          <ul>
-            <li>Clickable nav links that smooth scroll to page sections</li>
-            <li>Responsive behavior when clicking nav links perfect for a one page website</li>
-            <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the navbar</li>
-            <li>Minimal custom CSS so you are free to explore your own unique design options</li>
-          </ul>
+       
         </div>
       </div>
     </div>
   </section>
 
-  <section id="services" class="bg-light">
+
+
+<section id="popularItems" class="bg-light">
     <div class="container">
+     <h2 class="h1-responsive font-weight-bold text-center my-5">Popular Items</h2>
       <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>Services we offer</h2>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
-        </div>
+     
+         
+         	 
+ <%	
+ 		BidService  bidService = new BidServiceImpl();
+    	ArrayList<Bid> bidList = bidService.getRecentBids();
+    	if(bidList!=null){
+    		for(Bid bid: bidList){
+    			Item item = new Item();
+    			ItemService itemService = new ItemServiceImpl();
+    			item = itemService.getItemByID(bid.getItemID());
+    			
+    	 		byte[] imgData = item.getItemIn().getBytes(1,(int) item.getItemIn().length());
+    		    String encode = Base64.getEncoder().encodeToString(imgData);
+    		    request.setAttribute("imgBase", encode);
+    			
+    %>
+    <div class="col-4">
+<!-- Card Narrower -->
+
+<div class="card card-cascade narrower">
+
+  <!-- Card image -->
+  <div class="view view-cascade overlay">
+    <img class = "dec" src="data:image/jpeg;base64,${imgBase}" height="250" width="250">
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
+
+  <!-- Card content -->
+  <div class="card-body card-body-cascade">
+
+    <!-- Label -->
+    <h5 class="pink-text pb-2 pt-1"><i class="fas fa-utensils"></i><%out.println(item.getCategory());%></h5>
+    <!-- Title -->
+    <h4 class="font-weight-bold card-title"><%out.println(item.getItemTitle());%></h4>
+    <!-- Text -->
+    <p class="card-text"><%out.println(item.getItemDescription());%></p>
+    <!-- Button -->
+  	<%if(request.getSession(false).getAttribute("currentUser")!=null){%>
+	 		<a class="btn btn-unique" href="item.jsp?id=<%=item.getItemId()%>">Bid Item</a>
+	 	<%}else{%>
+	 		<button class="btn btn-unique" disabled>Bid Item</button>
+	 	<%}%>
+    
+    
+  </div>
+
+  <!-- Card footer -->
+  <div class="card-footer text-muted text-center" >BidWars</div>
+
+</div>
+<!-- Card Narrower -->
+    </div>
+<%
+
+
+		}
+	}
+
+%>
+    
       </div>
     </div>
   </section>
 
-  <section id="contact">
+  <section id="recentItems" class="bg-light">
     <div class="container">
+     <h2 class="h1-responsive font-weight-bold text-center my-5">Recent Items</h2>
       <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>Contact us</h2>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa exercitationem, in, quo totam.</p>
-        </div>
+     
+         
+         	 
+ <%	
+ 		ItemService  itemService = new ItemServiceImpl();
+    	ArrayList<Item> itemList = itemService.getRecentItems();
+    	if(itemList!=null){
+    		for(Item item:itemList){
+    %>
+    <div class="col-4">
+<!-- Card Narrower -->
+
+<div class="card card-cascade narrower">
+
+  <!-- Card image -->
+  <div class="view view-cascade overlay">
+  <%
+  byte[] imgData = item.getItemIn().getBytes(1,(int) item.getItemIn().length());
+  String encode = Base64.getEncoder().encodeToString(imgData);
+  request.setAttribute("imgBase", encode);
+  %>
+    <img class = "dec" src="data:image/jpeg;base64,${imgBase}" height="250" width="250">
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
+
+  <!-- Card content -->
+  <div class="card-body card-body-cascade">
+
+    <!-- Label -->
+    <h5 class="pink-text pb-2 pt-1"><i class="fas fa-utensils"></i><%out.println(item.getCategory());%></h5>
+    <!-- Title -->
+    <h4 class="font-weight-bold card-title"><%out.println(item.getItemTitle());%></h4>
+    <!-- Text -->
+    <p class="card-text"><%out.println(item.getItemDescription());%></p>
+    <!-- Button -->
+  	<%if(request.getSession(false).getAttribute("currentUser")!=null){%>
+	 		<a class="btn btn-unique" href="item.jsp?id=<%=item.getItemId()%>">Bid Item</a>
+	 	<%}else{%>
+	 		<button class="btn btn-unique" disabled>Bid Item</button>
+	 	<%}%>
+    
+    
+  </div>
+
+  <!-- Card footer -->
+  <div class="card-footer text-muted text-center" >BidWars</div>
+
+</div>
+<!-- Card Narrower -->
+    </div>
+<%
+
+
+		}
+	}
+
+%>
+    
       </div>
     </div>
   </section>
+
+  
 
   
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>

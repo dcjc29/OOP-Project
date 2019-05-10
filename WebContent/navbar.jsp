@@ -35,7 +35,7 @@
           aria-haspopup="true" aria-expanded="false">My Bidwars
         </a>
         <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-          <a class="dropdown-item" href="#">My Bids</a>
+          <a class="dropdown-item" href="MyBidWarsServlet?value=myBids">My Bids</a>
           <a class="dropdown-item" href="MyBidWarsServlet?value=myItems" name="myRequest" value="myItems" >My Items</a>
           <a class="dropdown-item" href="#">My Payments</a>
           

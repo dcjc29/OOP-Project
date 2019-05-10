@@ -54,7 +54,7 @@ public class PlaceABidServlet extends HttpServlet {
 		
 
 		if(message.equals("success")) {
-			request.getRequestDispatcher("myBids.jsp").forward(request, response);
+			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
 		}
 		else {
 			request.setAttribute("errorMessage", message);

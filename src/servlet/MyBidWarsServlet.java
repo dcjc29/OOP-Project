@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Bid;
 import model.Item;
+import service.BidService;
+import service.BidServiceImpl;
 import service.ItemService;
 import service.ItemServiceImpl;
 
@@ -33,7 +36,8 @@ public class MyBidWarsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = (int) request.getSession(false).getAttribute("currentUser");
-		String req = request.getParameter("value");
+		String req = null;
+		req = request.getParameter("value");
 		if(req.equals("myItems")) {
 			
 			ItemService itemService = new ItemServiceImpl();
@@ -42,6 +46,17 @@ public class MyBidWarsServlet extends HttpServlet {
 			
 			request.setAttribute("items", list);
 			request.getRequestDispatcher("myItems.jsp").forward(request, response);
+		}
+		
+		req = request.getParameter("value");
+		if(req.equals("myBids")) {
+			
+			BidService bidService = new BidServiceImpl();
+		
+			ArrayList<Bid> list =bidService.getBidsByUserId(id);
+			
+			request.setAttribute("bids", list);
+			request.getRequestDispatcher("myBids.jsp").forward(request, response);
 		}
 		
 	}

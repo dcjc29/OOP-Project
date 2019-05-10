@@ -24,8 +24,10 @@
 <jsp:include page="navbar.jsp"/>
 <jsp:include page="header.jsp"/>
 
+<section id="searchResults" class="bg-light">
+ <div class="container">
  <h2 class="h1-responsive font-weight-bold text-center my-5">Search Results</h2>
- 
+ <div class="row">
  
  
  <%
@@ -33,7 +35,7 @@
     	if(list!=null){
     		for(Item item:list){
     %>
- 
+    <div class="col-4">
 <!-- Card Narrower -->
 <div class="card card-cascade narrower">
 
@@ -44,7 +46,7 @@
   String encode = Base64.getEncoder().encodeToString(imgData);
   request.setAttribute("imgBase", encode);
   %>
-    <img class = "dec" src="data:image/jpeg;base64,${imgBase}">
+    <img class = "dec" src="data:image/jpeg;base64,${imgBase}" height="250" width="250">
     <a>
       <div class="mask rgba-white-slight"></div>
     </a>
@@ -74,14 +76,16 @@
 
 </div>
 <!-- Card Narrower -->
-	
+	</div>
 <%
 
 		}
 	}
 
 %>
- 
+ </div>
+ </div>
+ </section>
 
  
  
