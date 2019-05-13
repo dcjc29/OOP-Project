@@ -220,6 +220,10 @@ var editor = new $.fn.dataTable.Editor( {
   </div>
 </div>
  
+ 
+ <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+
 
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>

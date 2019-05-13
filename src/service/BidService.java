@@ -15,6 +15,10 @@ public interface BidService extends SuperService {
 	ArrayList<Bid> getBidsByUserId(int id);
 	
 	ArrayList<Bid> getRecentBids();
+
+	String updateBid(Bid bid);
+
+	String deleteBid(Bid bid);
 	
 	
 

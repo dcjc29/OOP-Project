@@ -30,7 +30,4 @@ public class Bid {
 		this.message = message;
 	}
 	
-	
-	
-	
 }

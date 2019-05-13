@@ -23,11 +23,12 @@
 <script
   src="https://code.jquery.com/jquery-1.12.4.js"
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous">
+  </script>
 
  
 <script type="text/javascript" src="js/addons/datatables.min.js"></script>
-<script type="text/javascript" src="js/addons/dataTables.editor.js"></script>
+
 
 
 <script>
@@ -82,7 +83,7 @@ var editor = new $.fn.dataTable.Editor( {
 %>
 	 <tr id="<%=item.getItemId()%>">
       	<td data-target="itemTitle"><%out.println(item.getItemTitle());%></td>
-        <td> <img src="data:image/jpeg;base64,${imgBase}" height="120" width="120"></td>
+        <td data-targer="itemImage"> <img src="data:image/jpeg;base64,${imgBase}" height="120" width="120"></td>
         <td data-target="startDate"><%out.println(item.getStartDate());%></td>
         <td data-target="endDate"><%out.println(item.getEndDate());%></td>
         <td data-target="bidAmount"><%out.println(bid.getBidAmount());%></td>
@@ -106,5 +107,106 @@ var editor = new $.fn.dataTable.Editor( {
 </div>
 </div>
 
+
+<div class="modal fade" id="modalUpdateBid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Update Bid</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="UpdateBidServlet" method="post">
+     
+      <div class="modal-body mx-3">
+       <div class="md-form mb-5">
+		<input type="hidden" class="form-control" id="itemId" name="itemId">
+        </div>
+         <div class="md-form mb-5">
+         <label>Message</label><br><br>
+		<textarea class="form-control" id="msg" name="msg" required></textarea>
+        </div>
+        <div class="md-form mb-5">
+        <label>Bid Amount</label><br>
+		<input type="text" class="form-control" id="bidAmount" name="bidAmount" required>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-success"type="submit">Update</button>
+         <button class="btn btn-danger" type="reset">Clear</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDeleteBid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete Bid</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="DeleteBidServlet" method="post">
+     
+      <div class="modal-body mx-3">
+       <div class="md-form mb-5">
+		<input type="hidden" class="form-control" id="iId" name="iId">
+		<h3>Do You Want To Delete This Bid From Records?</h3>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-success"type="submit">Yes</button>
+         <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
+
+ <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+
+
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.7/js/mdb.min.js"></script>
+  
+  <script type="text/javascript">
+	$(document).ready(function(){
+		$('.updateBtn').on('click',function(){
+			var itemId=$(this).data('id');
+			var msg=$('#'+itemId).children('td[data-target=message]').text();
+			var bidAmount=$('#'+itemId).children('td[data-target=bidAmount]').text();
+			
+			
+			$('#itemId').val(itemId);
+			$('#message').val(msg);
+			$('#bidAmount').val(bidAmount);
+			$('#modalUpdateBid').modal('toggle');
+			
+		});
+		
+		$('.deleteBtn').on('click',function(){
+			var id=$(this).data('id');
+			
+			
+			$('#iId').val(id);
+			console.log($('#iId').val());
+			$('#modalDeleteBid').modal('toggle');
+			
+		});
+	});
+
+</script>
 </body>
 </html>

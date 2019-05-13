@@ -46,7 +46,7 @@
   String encode = Base64.getEncoder().encodeToString(imgData);
   request.setAttribute("imgBase", encode);
   %>
-    <img class = "dec" src="data:image/jpeg;base64,${imgBase}" height="250" width="250">
+    <img class = "dec" src="data:image/jpeg;base64,${imgBase}" width="100%" height="250">
     <a>
       <div class="mask rgba-white-slight"></div>
     </a>
@@ -56,7 +56,7 @@
   <div class="card-body card-body-cascade">
 
     <!-- Label -->
-    <h5 class="pink-text pb-2 pt-1"><i class="fas fa-utensils"></i><%out.println(item.getCategory());%></h5>
+    <h5 class="pink-text pb-2 pt-1"><%out.println(item.getCategory());%></h5>
     <!-- Title -->
     <h4 class="font-weight-bold card-title"><%out.println(item.getItemTitle());%></h4>
     <!-- Text -->

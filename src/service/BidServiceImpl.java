@@ -170,6 +170,95 @@ public class BidServiceImpl implements BidService {
 		return list;
 	}
 
+	@Override
+	public String updateBid(Bid bid) {
+		int i=0;
+		String status=null;
+		
+		int itemId= bid.getItemID();
+		int bidderId= bid.getBidderID();
+		Double bidAmount= bid.getBidAmount();
+		String msg=	bid.getMessage();
+		
+	
+		String query = "UPDATE bids SET bidAmount = ?,message = ? WHERE itemId = ? AND customerId = ?";
+		
+		if(conn!=null) {
+			
+			
+			try {
+			
+					PreparedStatement ps = conn.prepareStatement(query);
+					
+					ps.setDouble(1, bidAmount);
+					ps.setString(2, msg);
+					ps.setInt(3, itemId);
+					ps.setInt(4, bidderId);
+				
+					i = ps.executeUpdate();
+					
+				}
+				
+			
+			catch (SQLException e) {
+				
+			}
+			
+			
+		
+		
+		if(i!=0) {
+			 status ="success";
+		}
+		else {
+			status="Something Is Not Right!!!";
+		}
+		
+	}
+	
+		return status;
+	}
+
+	@Override
+	public String deleteBid(Bid bid) {
+		int i = 0;
+		String status = null;
+		int itemId = bid.getItemID();
+		int bidderId = bid.getBidderID(); 
+		
+		String query = "DELETE FROM bids WHERE itemId = ? AND customerId = ?";
+		
+		if(conn!=null) {
+			
+			
+			try {
+			
+					PreparedStatement ps = conn.prepareStatement(query);
+					ps.setInt(1, itemId);
+					ps.setInt(2, bidderId);
+					i = ps.executeUpdate();
+					
+				}
+				
+			
+			catch (SQLException e) {
+				
+			}
+			
+			
+		
+		
+		if(i!=0) {
+			 status ="success";
+		}
+		else {
+			status="Something Is Not Right!!!";
+		}
+		
+	}
+	
+		return status;
+	}
 	
 	
 

@@ -7,21 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Item;
-import service.ItemService;
-import service.ItemServiceImpl;
+import model.Bid;
+import service.BidService;
+import service.BidServiceImpl;
 
 /**
- * Servlet implementation class DeleteItemServlet
+ * Servlet implementation class UpdateBidServlet
  */
-@WebServlet("/DeleteItemServlet")
-public class DeleteItemServlet extends HttpServlet {
+@WebServlet("/UpdateBidServlet")
+public class UpdateBidServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteItemServlet() {
+    public UpdateBidServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,19 +38,27 @@ public class DeleteItemServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		Item item=new Item();
-		ItemService itemService = new ItemServiceImpl();
-		item.setItemId(Integer.parseInt(request.getParameter("iId")));
-		String message =itemService.deleteItem(item);
+		Bid bid = new Bid();
+		BidService bidService = new BidServiceImpl();
+		
+		bid.setItemID( Integer.parseInt(request.getParameter("itemId")));
+		bid.setBidderID((int) request.getSession(false).getAttribute("currentUser"));
+		bid.setBidAmount(Double.parseDouble(request.getParameter("bidAmount")));
+		bid.setMessage(request.getParameter("msg"));
+		
+		String message = bidService.updateBid(bid);
+		
 		
 		if(message.equals("success")) {
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
+			
 		}
 		else {
 			request.setAttribute("errorMessage", message);
-			request.getRequestDispatcher("myItems.jsp").forward(request, response);
+			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
 		}
+		
+		
 	}
 
 }

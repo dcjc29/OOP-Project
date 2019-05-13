@@ -47,7 +47,7 @@
 
 <!-- Card Regular -->
 <div class="card card-cascade">
-
+<center>
   <!-- Card image -->
   <div class="view view-cascade overlay">
     <img class="card-img-top" src="data:image/jpeg;base64,${imgBase}" alt="Card image cap">
@@ -85,9 +85,9 @@
 
   <!-- Card footer -->
   <div class="card-footer text-muted text-center">
-    2 days ago
+    BidWars
   </div>
-
+</centre>
 </div>
 </div>
 <div class="col-6">
