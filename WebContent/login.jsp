@@ -73,6 +73,9 @@ function validate()
                 <p>Not a member?
                     <a href="registration.jsp">Register</a>
                 </p>
+                <p>Are You An Admin?
+                    <a href="adminLogin.jsp">Admin Login</a>
+                </p>
 
                 <p>or sign in with:</p>
                 <a type="button" class="btn-floating btn-fb btn-sm">
