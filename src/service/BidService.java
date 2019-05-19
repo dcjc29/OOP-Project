@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import model.Bid;
 import model.Item;
+import model.Payment;
 
 public interface BidService extends SuperService {
 
@@ -19,6 +20,12 @@ public interface BidService extends SuperService {
 	String updateBid(Bid bid);
 
 	String deleteBid(Bid bid);
+
+	ArrayList<Bid> getWonBidsByUserId(int id);
+
+	ArrayList<Payment> getPaymentsByUserId(int id);
+
+	String makePayment(Payment payment);
 	
 	
 

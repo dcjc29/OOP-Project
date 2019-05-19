@@ -69,7 +69,6 @@
 	<p class="card-text"><%out.println(item.getItemCondition());%></p>
 	<p class="card-text"><%out.println(item.getItemDelivery());%></p>
 	<p class="card-text"><%out.println(item.getMinBid());%></p>
-	<p class="card-text"><%out.println(item.getNoOfItem());%></p>
 	<p class="card-text"><%out.println(item.getStartDate());%></p>
 	<p class="card-text"><%out.println(item.getEndDate());%></p>
 	<p class="card-text" hidden><%out.println(item.getItemId());%></p>

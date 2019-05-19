@@ -6,7 +6,6 @@ import java.sql.Blob;
 public class Item {
 	private int itemId;
 	private String itemTitle;
-	private int noOfItem;
 	private int itemCondition;
 	private String Category;
 	private String itemDescription;
@@ -15,6 +14,7 @@ public class Item {
 	private String startDate;
 	private String endDate;
 	private Blob itemIn;
+	private int seller;
 	
 	public String getItemTitle() {
 		return itemTitle;
@@ -22,12 +22,7 @@ public class Item {
 	public void setItemTitle(String itemTitle) {
 		this.itemTitle = itemTitle;
 	}
-	public int getNoOfItem() {
-		return noOfItem;
-	}
-	public void setNoOfItem(int no) {
-		this.noOfItem = no;
-	}
+	
 	public int getItemCondition() {
 		return itemCondition;
 	}
@@ -82,6 +77,12 @@ public class Item {
 	}
 	public void setItemIn(Blob blob) {
 		this.itemIn= blob;
+	}
+	public int getSeller() {
+		return seller;
+	}
+	public void setSeller(int seller) {
+		this.seller = seller;
 	}
 	
 }

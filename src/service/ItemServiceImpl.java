@@ -1,13 +1,21 @@
 package service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import com.mysql.jdbc.Blob;
+import util.CommonConstants;
+import util.QueryUtil;
 
 import model.Item;
 import model.User;
@@ -17,8 +25,25 @@ import util.DBConnectionUtil;
 
 public class ItemServiceImpl implements ItemService {
 
-	DBConnectionUtil db = new DBConnectionUtil();
-	Connection conn = db.getDBConnection();
+	static DBConnectionUtil db = new DBConnectionUtil();
+	static Connection conn;
+    private static PreparedStatement ps;
+	
+	static {
+		createItemsTable();
+	}
+	
+
+	private static void createItemsTable() {
+		try {
+			conn = db.getDBConnection();
+			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_ITEM_TABLE));
+			ps.executeUpdate();
+		}catch(Exception e) {
+			
+		}
+		
+	}
 	
 	@Override
 	public String addItem(Item item,InputStream in,User seller) {
@@ -30,7 +55,6 @@ public class ItemServiceImpl implements ItemService {
 		
 
 		String itemTitle=item.getItemTitle();
-		int noOfItem=item.getNoOfItem();
 		int itemCondition=item.getItemCondition();
 		String Category=item.getCategory();
 		String itemDescription=item.getItemDescription();
@@ -40,17 +64,15 @@ public class ItemServiceImpl implements ItemService {
 		String endDate=item.getEndDate();
 		int sellerId=seller.getId();
 		
-		
-		String query1 = "select max(id) from items";
-		String query2 = "insert into items values(?,?,?,?,?,?,?,?,?,?,?,?)";
+	
 		
 		if(conn!=null) {
 			
 			
 			try {
 				
-				PreparedStatement pre = conn.prepareStatement(query1);
-				ResultSet rs=pre.executeQuery();
+				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ITEM_ID_MAX));
+				ResultSet rs=ps.executeQuery();
 				while(rs.next()) {
 					
 					id=rs.getString(1);
@@ -62,25 +84,24 @@ public class ItemServiceImpl implements ItemService {
 				}
 				int itemId=Integer.parseInt(id)+1;
 
-				PreparedStatement ps = conn.prepareStatement(query2);
+				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_INSERT_ITEM));
 				ps.setInt(1, itemId);;
 				ps.setString(2, itemTitle);
-				ps.setInt(3, noOfItem);
-				ps.setInt(4, itemCondition);
-				ps.setString(5, Category );
-				ps.setString(6, itemDescription);
-				ps.setString(7, itemDelivery);
-				ps.setDouble(8, minBid);
-				ps.setString(9, startDate);
-				ps.setString(10, endDate);
-				ps.setBlob(11, in);
-				ps.setInt(12, sellerId);
+				ps.setInt(3, itemCondition);
+				ps.setString(4, Category );
+				ps.setString(5, itemDescription);
+				ps.setString(6, itemDelivery);
+				ps.setDouble(7, minBid);
+				ps.setString(8, startDate);
+				ps.setString(9, endDate);
+				ps.setBlob(10, in);
+				ps.setInt(11, sellerId);
 				
 				
 				i = ps.executeUpdate();
 				
 			
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -98,16 +119,20 @@ public class ItemServiceImpl implements ItemService {
 
 	
 
+
+
+
 	@Override
 	public ArrayList getItemsByUserId(int id) {
 		
 		
 		ArrayList<Item> list=new ArrayList<Item>();
 		
-		String query = "select * from items where sellerId=('"+id+"')";
+		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ITEMS_BY_USERID));
+				ps.setInt(1, id);
 				ResultSet rs=ps.executeQuery();
 				int i=0;
 				
@@ -115,7 +140,6 @@ public class ItemServiceImpl implements ItemService {
 					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
-					item.setNoOfItem(rs.getInt("noOfItems"));
 					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
@@ -129,7 +153,7 @@ public class ItemServiceImpl implements ItemService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -144,21 +168,21 @@ public class ItemServiceImpl implements ItemService {
 		String status=null;
 		int itemId=item.getItemId();
 		
-		String query = "DELETE FROM items where id=?";
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_REMOVE_ITEM));
 					ps.setInt(1, itemId);
 					i = ps.executeUpdate();
 					
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -188,7 +212,6 @@ public class ItemServiceImpl implements ItemService {
 		
 		int itemId=item.getItemId();
 		String itemTitle=item.getItemTitle();
-		int noOfItem=item.getNoOfItem();
 		int itemCondition=item.getItemCondition();
 		String Category=item.getCategory();
 		String itemDescription=item.getItemDescription();
@@ -197,26 +220,23 @@ public class ItemServiceImpl implements ItemService {
 		String startDate=item.getStartDate();
 		String endDate=item.getEndDate();
 		
-	
-		String query = "UPDATE items SET title=?,noOfItems=?,itemsCondition=?,category=?,description=?,deliveryMethod=?,minBid=?,startDate=?,endDate=? where id=?";
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_UPDATE_ITEM));
 					
 					ps.setString(1, itemTitle);
-					ps.setInt(2, noOfItem);
-					ps.setInt(3, itemCondition);
-					ps.setString(4, Category );
-					ps.setString(5, itemDescription);
-					ps.setString(6, itemDelivery);
-					ps.setDouble(7, minBid);
-					ps.setString(8, startDate);
-					ps.setString(9, endDate);
-					ps.setInt(10, itemId);
+					ps.setInt(2, itemCondition);
+					ps.setString(3, Category );
+					ps.setString(4, itemDescription);
+					ps.setString(5, itemDelivery);
+					ps.setDouble(6, minBid);
+					ps.setString(7, startDate);
+					ps.setString(8, endDate);
+					ps.setInt(9,itemId);
 					
 				
 					i = ps.executeUpdate();
@@ -224,7 +244,7 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -253,7 +273,8 @@ public class ItemServiceImpl implements ItemService {
 				String query = "select * from items where category=('"+category+"') AND (title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%'))";
 				if(conn!=null) {
 					try {
-						PreparedStatement ps = conn.prepareStatement(query);
+						ps = conn.prepareStatement(query);
+					
 						ResultSet rs=ps.executeQuery();
 						int i=0;
 						
@@ -261,7 +282,6 @@ public class ItemServiceImpl implements ItemService {
 							Item item=new Item();
 							item.setItemId(rs.getInt("id"));
 							item.setItemTitle(rs.getString("title"));
-							item.setNoOfItem(rs.getInt("noOfItems"));
 							item.setItemCondition(rs.getInt("itemsCondition"));
 							item.setCategory(rs.getString("category"));
 							item.setItemDescription(rs.getString("description"));
@@ -294,7 +314,7 @@ public class ItemServiceImpl implements ItemService {
 		String query = "select * from items where title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%')";
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				ps = conn.prepareStatement(query);
 			
 				ResultSet rs=ps.executeQuery();
 				int i=0;
@@ -303,7 +323,6 @@ public class ItemServiceImpl implements ItemService {
 					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
-					item.setNoOfItem(rs.getInt("noOfItems"));
 					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
@@ -317,7 +336,7 @@ public class ItemServiceImpl implements ItemService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException  e) {
 				e.printStackTrace();
 			}
 			
@@ -333,11 +352,11 @@ public class ItemServiceImpl implements ItemService {
 	
 		
 		ArrayList<Item> list=new ArrayList<Item>();
-		
 		String query = "select * from items where category=('"+category+"')";
+		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				ps = conn.prepareStatement(query);
 				ResultSet rs=ps.executeQuery();
 				int i=0;
 				
@@ -345,7 +364,6 @@ public class ItemServiceImpl implements ItemService {
 					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
-					item.setNoOfItem(rs.getInt("noOfItems"));
 					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
@@ -359,7 +377,7 @@ public class ItemServiceImpl implements ItemService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException  e) {
 				e.printStackTrace();
 			}
 			
@@ -381,16 +399,16 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public Item getItemByID(int id) {
 		
-		String query = "select * from items where id=('"+id+"')";
+		
 		Item item=new Item();
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ITEM_BY_ID));
+				ps.setInt(1, id);
 				ResultSet rs=ps.executeQuery();
 				while(rs.next()) {	
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
-					item.setNoOfItem(rs.getInt("noOfItems"));
 					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
@@ -399,9 +417,10 @@ public class ItemServiceImpl implements ItemService {
 					item.setStartDate(rs.getString("startDate"));
 					item.setEndDate(rs.getString("endDate"));
 					item.setItemIn(rs.getBlob("itemImage"));
+					item.setSeller(rs.getInt("sellerId"));
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -415,19 +434,18 @@ public class ItemServiceImpl implements ItemService {
 		
 		ArrayList<Item> list=new ArrayList<Item>();
 		
-		String query = "select * from items order by id DESC LIMIT 6";
+	
 		
 		if(conn!=null) {
 			
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_RECENT_ITEMS));
 				ResultSet rs=ps.executeQuery();
 				int i=0;
 				while(rs.next()) {	
 					Item item=new Item();
 					item.setItemId(rs.getInt("id"));
 					item.setItemTitle(rs.getString("title"));
-					item.setNoOfItem(rs.getInt("noOfItems"));
 					item.setItemCondition(rs.getInt("itemsCondition"));
 					item.setCategory(rs.getString("category"));
 					item.setItemDescription(rs.getString("description"));
@@ -440,7 +458,7 @@ public class ItemServiceImpl implements ItemService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			

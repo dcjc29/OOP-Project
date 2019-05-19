@@ -58,7 +58,7 @@ public class PlaceABidServlet extends HttpServlet {
 		}
 		else {
 			request.setAttribute("errorMessage", message);
-			request.getRequestDispatcher(".jsp").forward(request, response);
+			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 	
 	}

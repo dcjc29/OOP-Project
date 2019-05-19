@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Querys>
+
+
+
+<!-- Create table item Query -->
+	<query id="create_item_table">
+        <![CDATA[
+            CREATE TABLE items(
+				id int(11) not null,
+				title varchar(45) not null,
+				itemsCondition int(11) not null,
+				category varchar(45) not null,
+				description varchar(100) not null,
+				deliveryMethod varchar(45) not null,
+				minBid DOUBLE not null,
+				startDate DATE not null,
+				endDate DATE not null,
+				itemImage LONGBLOB not null,
+				sellerId int(11) not null,
+				primary key (id),
+				foreign key(sellerId) references users(id)
+				ON DELETE CASCADE
+				ON UPDATE CASCADE
+			)
+        ]]>
+	</query>
+	
+	<!-- Insert item Query -->
+	<query id="insert_item">
+        <![CDATA[
+          	insert into items values(?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+	</query>
+
+	<!-- Select items by by seller id Query -->
+	<query id="items_by_userId">
+         <![CDATA[        
+            select * from items where sellerId=?
+        ]]>
+	</query>
+	
+	<!-- Select items by  id Query -->
+	<query id="item_by_id">
+         <![CDATA[        
+           select * from items where id=?
+        ]]>
+	</query>
+	
+
+	<!-- Delete a particular item by id Query -->
+	<query id="remove_item">
+         <![CDATA[        
+           DELETE FROM items where id=?
+        ]]>
+	</query>
+	
+	<!-- Update a particular item by id Query -->
+	<query id="update_item">
+         <![CDATA[        
+            UPDATE items SET title=?,noOfItems=?,itemsCondition=?,category=?,description=?,deliveryMethod=?,minBid=?,startDate=?,endDate=? where id=?
+        ]]>
+	</query>
+	
+		<!-- Get item MAX ID Query -->
+	<query id="item_id_max">
+         <![CDATA[        
+          select max(id) from items
+        ]]>
+	</query>
+	
+	<!-- Get items by search -->
+	<query id="search_item(c,k)">
+         <![CDATA[        
+          select * from items where category=('"+category+"') AND (title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%'))
+        ]]>
+	</query>
+	
+	<!-- Get items by search -->
+	<query id="search_item(k)">
+         <![CDATA[        
+          select * from items where title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%')
+        ]]>
+	</query>
+	
+	<!-- Get items by search -->
+	<query id="search_item(c)">
+         <![CDATA[        
+          select * from items where category=('"+category+"')
+        ]]>
+	</query>
+	
+	<!-- Select a particular item by by id Query -->
+	<query id="item_by_id">
+         <![CDATA[        
+            select * from items where id=?
+        ]]>
+	</query>
+	
+	
+	<!-- Select recent items Query -->
+	<query id="recent_items">
+         <![CDATA[        
+           select * from items order by id DESC LIMIT 6
+        ]]>
+	</query>
+	
+
+
+	<!-- Create table admin Query -->
+	<query id="create_admin_table">
+        <![CDATA[
+            CREATE TABLE admin(
+				id int(11) not null,
+				username varchar(20) not null,
+				password varchar(250) not null,
+				email varchar(45) not null,
+				mobile varchar(10) not null,
+				salt  varchar(45) not null,
+				addedBy int(11) not null DEFAULT 0,
+				primary key (id),
+				foreign key(addedBy) references admin(id)
+					ON DELETE SET DEFAULT
+					ON UPDATE CASCADE
+			)
+        ]]>
+	</query>
+	
+	<!-- Insert Admin Query -->
+	<query id="insert_admin">
+        <![CDATA[
+          	insert into admin values(?,?,?,?,?,?,?)
+        ]]>
+	</query>
+
+	<!-- Select a particular admin by by id Query -->
+	<query id="admin_by_id">
+         <![CDATA[        
+            select * from admin where id = ?
+        ]]>
+	</query>
+
+	<!-- Select all admins -->
+	<query id="all_admins">
+         <![CDATA[        
+            select * from admin
+        ]]>
+	</query>
+
+	<!-- Delete a particular admin by id Query -->
+	<query id="remove_admin">
+         <![CDATA[        
+            DELETE FROM admin where id=?
+        ]]>
+	</query>
+	
+	<!-- Update a particular admin by id Query -->
+	<query id="update_admin">
+         <![CDATA[        
+            UPDATE admin SET username=?,email=?,mobile=? where id=?
+        ]]>
+	</query>
+	
+		<!-- Get admin MAX ID Query -->
+	<query id="admin_id_max">
+         <![CDATA[        
+          select max(id) from admin
+        ]]>
+	</query>
+	
+	
+	
+	<!-- Create table users Query -->
+	<query id="create_users_table">
+        <![CDATA[
+            CREATE TABLE users(
+				id int(11) not null,
+				userName varchar(20) not null,
+				userPass varchar(250) not null,
+				fName varchar(20) not null,
+				lName varchar(20) not null,
+				uEmail varchar(45) not null,
+				addressNo varchar(10) not null,
+				addressStreet varchar(25) not null,
+				addressCity varchar(45) not null,
+				addressCountry varchar(25) not null,
+				mobileNo varchar(10) not null,
+				salt  varchar(45) not null,
+				primary key (id)
+			)
+        ]]>
+	</query>
+	
+	<!-- Insert user Query -->
+	<query id="insert_user">
+        <![CDATA[
+          	insert into users values(?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+	</query>
+
+	<!-- Select a particular user by by id Query -->
+	<query id="user_by_id">
+         <![CDATA[        
+            select * from users where id=?
+        ]]>
+	</query>
+
+	<!-- Select all users -->
+	<query id="all_users">
+         <![CDATA[        
+            select * from users
+        ]]>
+	</query>
+
+	<!-- Delete a particular user by id Query-->
+	<query id="remove_user">
+         <![CDATA[        
+            DELETE FROM users where id=?
+        ]]>
+	</query>
+	
+	<!-- Update a particular user by id Query -->
+	<query id="update_user">
+         <![CDATA[        
+            UPDATE users SET userName=?,fName=?,lName=?,uEmail=?,mobileNo=? where id=?
+        ]]>
+	</query>
+	
+		<!-- Get user MAX ID Query -->
+	<query id="user_id_max">
+         <![CDATA[        
+          select max(id) from users
+        ]]>
+	</query>
+	
+	
+	<!-- Create table bids Query -->
+	<query id="create_bids_table">
+        <![CDATA[
+            CREATE TABLE bids(
+				itemId int(11) not null,
+				customerId int(11) not null,
+				bidAmount DOUBLE not null,
+				message varchar(200),
+				bidId int(11) not null,
+				wonStatus int(11) DEFAULT 0 not null,
+				primary key (itemId,customerId),
+				foreign key(itemId) references items(id)
+					ON DELETE CASCADE
+					ON UPDATE CASCADE,
+				foreign key(customerId) references users(id)
+					ON DELETE CASCADE
+					ON UPDATE CASCADE
+			)
+        ]]>
+	</query>
+	
+	<!-- Insert bid Query -->
+	<query id="insert_bid">
+        <![CDATA[
+          	insert into bids(itemId,customerId,bidAmount,message,bidId) values(?,?,?,?,?)
+        ]]>
+	</query>
+
+
+	<!-- Delete a particular bid Query -->
+	<query id="remove_bid">
+         <![CDATA[        
+           DELETE FROM bids WHERE itemId = ? AND customerId = ?
+        ]]>
+	</query>
+	
+	<!-- Update a particular bid Query-->
+	<query id="update_bid">
+         <![CDATA[        
+            UPDATE bids SET bidAmount = ?,message = ? WHERE itemId = ? AND customerId = ?
+        ]]>
+	</query>
+	
+		<!-- Get Bid MAX ID Query -->
+	<query id="bid_id_max">
+         <![CDATA[        
+          select max(bidId) from bids
+        ]]>
+	</query>
+	
+	<!-- Select recent bids Query -->
+	<query id="recent_bids">
+         <![CDATA[        
+           select * from bids order by bidId  DESC LIMIT 6
+        ]]>
+	</query>
+	
+<!-- Select bids by by customer id Query -->
+	<query id="bids_by_customerId">
+         <![CDATA[        
+            select * from bids where customerId = ?
+        ]]>
+	</query>
+	
+	<!-- Select bids won by a customer Query -->
+	<query id="won_bids_by_customerId">
+         <![CDATA[        
+            select * from bids where customerId = ? AND wonStatus=1
+        ]]>
+	</query>
+
+
+<!-- Create table payments Query -->
+	<query id="create_payments_table">
+        <![CDATA[
+            CREATE TABLE payments(
+				itemId int(11) not null,
+				payeeId int(11) not null,
+				payerId int(11) not null,
+				name varchar(100) not null,
+				address varchar(200) not null,
+				date DATE not null,
+				method varchar(50),
+				amount DOUBLE not null,
+				primary key (itemId,payerId)
+			)
+        ]]>
+	</query>
+	
+	<!-- Insert payment Query -->
+	<query id="insert_payment">
+        <![CDATA[
+          	insert into payments values(?,?,?,?,?,?,?,?)
+        ]]>
+	</query>
+	
+		<!-- Select payments  by customer id Query -->
+	<query id="payments_by_payerId">
+         <![CDATA[        
+            select * from payments where payerId = ?
+        ]]>
+	</query>
+	
+</Querys>

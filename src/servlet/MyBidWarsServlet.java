@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Bid;
 import model.Item;
+import model.Payment;
 import service.BidService;
 import service.BidServiceImpl;
 import service.ItemService;
@@ -35,8 +36,10 @@ public class MyBidWarsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int id = (int) request.getSession(false).getAttribute("currentUser");
 		String req = null;
+		
 		req = request.getParameter("value");
 		if(req.equals("myItems")) {
 			
@@ -48,7 +51,7 @@ public class MyBidWarsServlet extends HttpServlet {
 			request.getRequestDispatcher("myItems.jsp").forward(request, response);
 		}
 		
-		req = request.getParameter("value");
+		
 		if(req.equals("myBids")) {
 			
 			BidService bidService = new BidServiceImpl();
@@ -57,6 +60,27 @@ public class MyBidWarsServlet extends HttpServlet {
 			
 			request.setAttribute("bids", list);
 			request.getRequestDispatcher("myBids.jsp").forward(request, response);
+		}
+		
+	
+		if(req.equals("myWonItems")) {
+			
+			BidService bidService = new BidServiceImpl();
+		
+			ArrayList<Bid> list =bidService.getWonBidsByUserId(id);
+			
+			request.setAttribute("wonbids", list);
+			request.getRequestDispatcher("myWonItems.jsp").forward(request, response);
+		}
+		
+			if(req.equals("myPayments")) {
+			
+			BidService bidService = new BidServiceImpl();
+		
+			ArrayList<Payment> list =bidService.getPaymentsByUserId(id);
+			
+			request.setAttribute("payments", list);
+			request.getRequestDispatcher("myPayments.jsp").forward(request, response);
 		}
 		
 	}

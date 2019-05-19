@@ -46,7 +46,7 @@ function validate()
           <div class="card">
 
     <h5 class="card-header info-color white-text text-center py-4">
-        <strong>Sign in</strong>
+        <strong>Admin Login</strong>
     </h5>
 <span style="color:red"><%=(request.getAttribute("errorMessage") == null) ? ""
  : request.getAttribute("errorMessage")%></span>

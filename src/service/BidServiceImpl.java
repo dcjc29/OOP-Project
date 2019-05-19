@@ -1,20 +1,59 @@
 package service;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 
 import model.Bid;
 import model.Item;
+import model.Payment;
+import util.CommonConstants;
 import util.DBConnectionUtil;
+import util.QueryUtil;
 
 public class BidServiceImpl implements BidService {
 
-	DBConnectionUtil db = new DBConnectionUtil();
-	Connection conn = db.getDBConnection();
 
+	static DBConnectionUtil db = new DBConnectionUtil();
+	static Connection conn;
+    private static PreparedStatement ps;
+	
+	static {
+		createBidsTable();
+		createPaymentsTable();
+	}
+	
+	private static void createBidsTable() {
+		try {
+			conn = db.getDBConnection();
+			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_BIDS_TABLE));
+			ps.executeUpdate();
+		}catch(Exception e) {
+			
+		}
+		
+	}
+	
+	private static void createPaymentsTable() {
+		try {
+			conn = db.getDBConnection();
+			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_PAYMENTS_TABLE));
+			ps.executeUpdate();
+		}catch(Exception e) {
+			
+		}
+		
+	}
 	
 	@Override
 	public void add(Object t) {
@@ -57,15 +96,15 @@ public class BidServiceImpl implements BidService {
 		String msg = bid.getMessage();
 		Double bidAmount = bid.getBidAmount();
 		
-		String query1 = "select max(bidId) from bids";
-		String query2 = "insert into bids values(?,?,?,?,?)";
+		
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 				
-				PreparedStatement pre = conn.prepareStatement(query1);
+				PreparedStatement pre = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_BID_ID_MAX));
 				ResultSet rs=pre.executeQuery();
 				while(rs.next()) {
 					
@@ -79,7 +118,7 @@ public class BidServiceImpl implements BidService {
 				
 				int bId=Integer.parseInt(id)+1;
 				
-				PreparedStatement ps = conn.prepareStatement(query2);
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_INSERT_BID));
 				ps.setInt(1, itemId);
 				ps.setInt(2, bidderId);
 				ps.setDouble(3, bidAmount);
@@ -89,7 +128,7 @@ public class BidServiceImpl implements BidService {
 				i = ps.executeUpdate();
 				
 			
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -110,10 +149,10 @@ public class BidServiceImpl implements BidService {
 			
 		ArrayList<Bid> list=new ArrayList<Bid>();
 		
-		String query = "select * from bids where customerId = ?";
+		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_BIDS_BY_CUSTOMERID));
 				ps.setInt(1, id);
 				
 				ResultSet rs=ps.executeQuery();
@@ -130,7 +169,7 @@ public class BidServiceImpl implements BidService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -143,10 +182,10 @@ public class BidServiceImpl implements BidService {
 		
 		ArrayList<Bid> list=new ArrayList<Bid>();
 		
-		String query = "select * from bids order by bidId  DESC LIMIT 6";
+		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_RECENT_BIDS));
 				ResultSet rs=ps.executeQuery();
 				int i=0;
 				
@@ -161,7 +200,7 @@ public class BidServiceImpl implements BidService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -181,14 +220,14 @@ public class BidServiceImpl implements BidService {
 		String msg=	bid.getMessage();
 		
 	
-		String query = "UPDATE bids SET bidAmount = ?,message = ? WHERE itemId = ? AND customerId = ?";
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_UPDATE_BID));
 					
 					ps.setDouble(1, bidAmount);
 					ps.setString(2, msg);
@@ -200,7 +239,7 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -226,14 +265,14 @@ public class BidServiceImpl implements BidService {
 		int itemId = bid.getItemID();
 		int bidderId = bid.getBidderID(); 
 		
-		String query = "DELETE FROM bids WHERE itemId = ? AND customerId = ?";
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_REMOVE_BID));
 					ps.setInt(1, itemId);
 					ps.setInt(2, bidderId);
 					i = ps.executeUpdate();
@@ -241,7 +280,7 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -257,6 +296,130 @@ public class BidServiceImpl implements BidService {
 		
 	}
 	
+		return status;
+	}
+
+	@Override
+	public ArrayList<Bid> getWonBidsByUserId(int id) {
+		
+		ArrayList<Bid> list=new ArrayList<Bid>();
+		
+		
+		if(conn!=null) {
+			try {
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_WON_BIDS_BY_CUSTOMERID));
+				ps.setInt(1, id);
+				
+				ResultSet rs=ps.executeQuery();
+				int i=0;
+				
+				while(rs.next()) {
+					Bid bid=new Bid();
+					bid.setItemID(rs.getInt("itemId"));
+					bid.setBidderID(rs.getInt("customerId"));
+					bid.setBidAmount(rs.getDouble("bidAmount"));
+					bid.setMessage(rs.getString("message"));
+					
+					list.add(i,bid);
+					i++;
+				}
+				
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return list;
+	}
+
+	@Override
+	public ArrayList<Payment> getPaymentsByUserId(int id) {
+		ArrayList<Payment> list=new ArrayList<Payment>();
+		
+		
+		if(conn!=null) {
+			try {
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_PAYMENTS_BY_PAYERID));
+				ps.setInt(1, id);
+				
+				ResultSet rs=ps.executeQuery();
+				int i=0;
+				
+				while(rs.next()) {
+					Payment payment = new Payment();
+				
+					payment.setItem(rs.getInt("itemId"));
+					payment.setPayee(rs.getInt("payeeId"));
+					payment.setPayer(rs.getInt("payerId"));
+					payment.setName(rs.getString("name"));
+					payment.setCard(rs.getString("card"));
+					payment.setAddress(rs.getString("address"));
+					payment.setDate(rs.getDate("date"));
+					payment.setAmount(rs.getDouble("amount"));
+					list.add(i,payment);
+					i++;
+				}
+				
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return list;
+	}
+
+	@Override
+	public String makePayment(Payment payment) {
+		int i = 0;
+		String id=null;
+		String status=null;
+
+		int itemId = payment.getItem();
+		int payee = payment.getPayee();
+		int payer = payment.getPayer();
+		String name = payment.getName();
+		String address = payment.getAddress();
+		String card = payment.getCard();
+		Double amount = payment.getAmount();
+		Date date = payment.getDate();
+		
+		
+		
+		
+		if(conn!=null) {
+			
+			
+			try {
+				
+				
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_INSERT_PAYMENT));
+				ps.setInt(1, itemId);
+				ps.setInt(2, payee);
+				ps.setInt(3, payer);
+				ps.setString(4, name);
+				ps.setString(5, address);
+				ps.setDate(6, (java.sql.Date) date);
+				ps.setString(7, card);
+				ps.setDouble(8, amount);
+				
+				i = ps.executeUpdate();
+				
+			
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				
+			}
+			
+			
+		}
+		
+		if(i!=0) {
+			 status ="success";
+		}
+		else {
+			status="Something Is Not Right!!!";
+		}
 		return status;
 	}
 	

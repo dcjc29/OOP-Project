@@ -1,32 +1,27 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.InputStream;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
-import model.Item;
-import service.ItemService;
-import service.ItemServiceImpl;
+import model.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 /**
- * Servlet implementation class UpdateItemServlet
+ * Servlet implementation class UpdateUserServlet
  */
-@WebServlet("/UpdateItemServlet")
-
-public class UpdateItemServlet extends HttpServlet {
+@WebServlet("/UpdateUserServlet")
+public class UpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateItemServlet() {
+    public UpdateUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,31 +38,25 @@ public class UpdateItemServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserService userService = new UserServiceImpl();
+		User user = new User();
 		
+		user.setId((int)request.getSession().getAttribute("currentUser"));
+		user.setUserName(request.getParameter("inputUser"));
+		user.setName(request.getParameter("inputFName")+" "+request.getParameter("inputLName"));
+		user.setEmail(request.getParameter("inputEmail"));
+		user.setMobileNo(request.getParameter("inputMobile"));
 		
-		Item item = new Item();
-		ItemService itemService = new ItemServiceImpl();
+
 		
-		item.setItemId(Integer.parseInt(request.getParameter("itemId")));
-		item.setItemTitle(request.getParameter("itemTitle"));
-		item.setItemCondition(Integer.parseInt(request.getParameter("itemCondition")));
-		item.setItemDescription(request.getParameter("itemDescription"));
-		item.setMinBid(Double.parseDouble(request.getParameter("minimumBid")));
-		item.setEndDate(request.getParameter("endDate"));
-		item.setStartDate(request.getParameter("startDate"));
-		item.setItemDelivery(request.getParameter("itemDelivery"));
-		item.setCategory(request.getParameter("itemCategory"));
+		String message = userService.updateUser(user);
 		
-		String message = itemService.updateItem(item);
-		
-	
 		if(message.equals("success")) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
-			
 		}
 		else {
 			request.setAttribute("errorMessage", message);
-			request.getRequestDispatcher("myItems.jsp").forward(request, response);
+			request.getRequestDispatcher("userProfile.jsp").forward(request, response);
 		}
 	}
 

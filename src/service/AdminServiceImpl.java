@@ -1,19 +1,44 @@
 package service;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import model.Item;
 import model.User;
+import util.CommonConstants;
 import util.DBConnectionUtil;
+import util.QueryUtil;
 
 public class AdminServiceImpl implements AdminService {
 
 	DBConnectionUtil db = new DBConnectionUtil();
 	Connection conn = db.getDBConnection();
+	private static java.sql.Statement statement;
+	static {
+		createAdminTable();
+	}
+	
+	private static void createAdminTable() {
+		try {
+			Connection connection = null;
+		    Statement statement;
+		    
+		    statement = connection.createStatement();
+			statement.executeUpdate(QueryUtil.queryByID(CommonConstants.CREATE_ADMIN_TABLE));
+		}catch(Exception e) {
+			
+		}
+		
+	}
 	
 	public String addAdmin(User user, byte[] salt,int admin) {
 
@@ -30,15 +55,15 @@ public class AdminServiceImpl implements AdminService {
 		
 			
 			
-			String query1 = "select max(id) from admin";
-			String query2 = "insert into admin values(?,?,?,?,?,?,?)";
+		
+			
 		
 			if(conn!=null) {
 				
 				
 				try {
 					
-					PreparedStatement pre = conn.prepareStatement(query1);
+					PreparedStatement pre = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ADMIN_ID_MAX));
 					ResultSet rs=pre.executeQuery();
 					while(rs.next()) {
 						
@@ -51,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
 						
 					}
 					int uId=Integer.parseInt(id)+1;
-					PreparedStatement ps = conn.prepareStatement(query2);
+					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_INSERT_ADMIN));
 					ps.setInt(1, uId);
 					ps.setString(2, uName);
 					ps.setString(3, uPass);
@@ -67,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
 					i = ps.executeUpdate();
 					
 				
-				} catch (SQLException e) {
+				} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 					
 				}
 				
@@ -87,11 +112,11 @@ public class AdminServiceImpl implements AdminService {
 
 		ArrayList<User> list=new ArrayList<User>();
 	
-		String query = "select * from admin";
+		
 		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ALL_ADMINS));
 			
 				ResultSet rs=ps.executeQuery();
 				int i=0;
@@ -108,7 +133,7 @@ public class AdminServiceImpl implements AdminService {
 					i++;
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -121,11 +146,11 @@ public class AdminServiceImpl implements AdminService {
 
 		
 		User admin = new User();
-		String query = "select * from admin where id = ?";
+		
 		
 		if(conn!=null) {
 			try {
-				PreparedStatement ps = conn.prepareStatement(query);
+				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ADMIN_BY_ID));
 				ps.setInt(1, id);
 				ResultSet rs=ps.executeQuery();
 				
@@ -138,7 +163,7 @@ public class AdminServiceImpl implements AdminService {
 					admin.setMobileNo(rs.getString("mobile"));
 				}
 				
-			} catch (SQLException e) {
+			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			
@@ -192,14 +217,14 @@ public class AdminServiceImpl implements AdminService {
 		
 		
 	
-		String query = "UPDATE admin SET username=?,email=?,mobile=? where id=?";
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_UPDATE_ADMIN));
 					
 					ps.setString(1, userName);
 					ps.setString(2, email);
@@ -213,7 +238,7 @@ public class AdminServiceImpl implements AdminService {
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			
@@ -241,21 +266,21 @@ public class AdminServiceImpl implements AdminService {
 		int i = 0;
 		String status=null;
 		
-		String query = "DELETE FROM admin where id=?";
+		
 		
 		if(conn!=null) {
 			
 			
 			try {
 			
-					PreparedStatement ps = conn.prepareStatement(query);
+					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_REMOVE_ADMIN));
 					ps.setInt(1, adminId);
 					i = ps.executeUpdate();
 					
 				}
 				
 			
-			catch (SQLException e) {
+			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				
 			}
 			

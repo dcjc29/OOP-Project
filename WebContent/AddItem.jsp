@@ -26,11 +26,7 @@
 		<label>Item Title</label>
 		<input type="text" class="form-control" id="itemTitle" name="itemTitle">
 	</div>
-	<div class="form-group">
-		<label>No Of Items</label> : &nbsp;<span id="Output"></span>
-		<input type="range" min="1"  max="100" value="1" id="noOfItems" name="noOfItems" class="form-control">
-		
-	</div>
+	
 	<div class="form-group">
 		<label>Item Category</label>
 		<select class="form-control" id="itemCategory" name="itemCategory">
@@ -97,14 +93,6 @@
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="js/mdb.min.js"></script>
-  <script type="text/javascript">
-  		var slider = document.getElementById("noOfItems");
-  		var output = document.getElementById("Output");
-  		output.innerHTML=slider.value;
-  		
-  		slider.oninput = function(){
-  			output.innerHTML=slider.value;
-  		}
-  </script>
+
 </body>
 </html>

@@ -54,7 +54,6 @@ public class AddItemServlet extends HttpServlet {
 		seller.setId((int) request.getSession(false).getAttribute("currentUser"));
 		
 		item.setItemTitle(request.getParameter("itemTitle"));
-		item.setNoOfItem(Integer.parseInt(request.getParameter("noOfItems")));
 		item.setItemCondition(Integer.parseInt(request.getParameter("itemCondition")));
 		item.setItemDescription(request.getParameter("itemDescription"));
 		item.setMinBid(Double.parseDouble(request.getParameter("minimumBid")));

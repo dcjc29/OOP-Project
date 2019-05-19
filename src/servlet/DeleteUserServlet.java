@@ -7,22 +7,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.User;
+import service.AdminService;
+import service.AdminServiceImpl;
 import service.UserService;
 import service.UserServiceImpl;
-import util.security;
 
 /**
- * Servlet implementation class RegistrationServlet
+ * Servlet implementation class DeleteUserServlet
  */
-@WebServlet("/RegistrationServlet")
-public class RegistrationServlet extends HttpServlet {
+@WebServlet("/DeleteUserServlet")
+public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegistrationServlet() {
+    public DeleteUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,34 +39,21 @@ public class RegistrationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		security security = new security();
-		
-		String input = request.getParameter("inputPassword");
-		byte[] salt = security.createSalt();
-		String password = security.generateHash(input, salt);
 		UserService userService = new UserServiceImpl();
-		
-		User user = new User();
-		
-		user.setUserName(request.getParameter("inputUser"));
-		user.setUserPass(password);
-		user.setName(request.getParameter("inputFName")+" "+request.getParameter("inputLName"));
-		user.setEmail(request.getParameter("inputEmail"));
-		user.setAddress(request.getParameter("inputAddress"));
-		user.setMobileNo(request.getParameter("inputMobile"));
-		
-
-		
-		String message = userService.addUser(user,salt);
+		String message = userService.deleteUser(userId);
 		
 		if(message.equals("success")) {
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			request.getRequestDispatcher("LogoutServlet").forward(request, response);
+			
 		}
 		else {
 			request.setAttribute("errorMessage", message);
-			request.getRequestDispatcher("registration.jsp").forward(request, response);
+			request.getRequestDispatcher("userProfile.jsp").forward(request, response);
 		}
+		
 	}
 
 }

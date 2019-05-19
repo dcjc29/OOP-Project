@@ -36,8 +36,9 @@
         </a>
         <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
           <a class="dropdown-item" href="MyBidWarsServlet?value=myBids">My Bids</a>
-          <a class="dropdown-item" href="MyBidWarsServlet?value=myItems" name="myRequest" value="myItems" >My Items</a>
-          <a class="dropdown-item" href="#">My Payments</a>
+          <a class="dropdown-item" href="MyBidWarsServlet?value=myItems" >My Items</a>
+          <a class="dropdown-item" href="MyBidWarsServlet?value=myWonItems">My Won Bids</a>
+          <a class="dropdown-item" href="MyBidWarsServlet?value=myPayments">My Payments</a>
           
           <%}%>
         </div>
@@ -66,7 +67,7 @@
           	<%if(request.getSession(false).getAttribute("currentUser")!=null){%>
  			<a class="dropdown-item" href="LogoutServlet">Logout</a>
           	<a class="dropdown-item" href="#">Change Password</a>
-          	<a class="dropdown-item" href="#">My Profile</a>
+          	<a class="dropdown-item" href="userProfile.jsp">My Profile</a>
      	<%}else{ %>
  			<a class="dropdown-item" href="login.jsp">Login For More Options</a>
  	<%} %>

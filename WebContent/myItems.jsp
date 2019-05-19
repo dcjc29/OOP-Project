@@ -24,7 +24,7 @@
 
  
 <script type="text/javascript" src="js/addons/datatables.min.js"></script>
-<script type="text/javascript" src="js/addons/dataTables.editor.js"></script>
+
 
 
 <script>
@@ -32,12 +32,6 @@ $(document).ready( function () {
     $('#dtBasicExample').DataTable(
     );
 } );
-
-var editor = new $.fn.dataTable.Editor( {
-	table: '#dtBasicExample',
-    
-} );
-
 
 </script>
   
@@ -57,7 +51,6 @@ var editor = new $.fn.dataTable.Editor( {
       <tr>
         <th class="th-sm">Item Image</th>
         <th class="th-sm">Item Title</th>
-        <th class="th-sm">No Of Items</th>
         <th class="th-sm">Description</th>
         <th class="th-sm">Condition</th>
         <th class="th-sm">Category</th>
@@ -81,7 +74,6 @@ var editor = new $.fn.dataTable.Editor( {
       
         <td> <img src="data:image/jpeg;base64,${imgBase}" height="120" width="120"></td>
         <td data-target="itemTitle"><%out.println(item.getItemTitle());%></td>
-        <td data-target="noOfItems"><%out.println(item.getNoOfItem());%></td>
         <td data-target="itemDescription"><%out.println(item.getItemDescription());%></td>
         <td data-target="itemCondition"><%out.println(item.getItemCondition());%></td>
         <td data-target="category"><%out.println(item.getCategory());%></td>
@@ -128,10 +120,6 @@ var editor = new $.fn.dataTable.Editor( {
         <div class="md-form mb-5">
         <label>Item Title</label><br>
 		<input type="text" class="form-control" id="itemTitle" name="itemTitle" required>
-        </div>
-        <div class="md-form mb-5">
-          <label>No Of Items</label>
-		<input type="text" min="1"  max="100" value="1" id="noOfItems" name="noOfItems" class="form-control" required>
         </div>
         <div class="md-form mb-5">
           <label>Item Category</label><br><br>
@@ -237,7 +225,6 @@ var editor = new $.fn.dataTable.Editor( {
 		$('.updateBtn').on('click',function(){
 			var id=$(this).data('id');
 			var itemTitle=$('#'+id).children('td[data-target=itemTitle]').text();
-			var noOfItems=$('#'+id).children('td[data-target=noOfItems]').text();
 			var itemDescription=$('#'+id).children('td[data-target=itemDescription]').text();
 			var itemCondition=$('#'+id).children('td[data-target=itemCondition]').text();
 			var category=$('#'+id).children('td[data-target=category]').text();
@@ -246,7 +233,6 @@ var editor = new $.fn.dataTable.Editor( {
 			
 			$('#itemId').val(id);
 			$('#itemTitle').val(itemTitle);
-			$('#noOfItems').val(noOfItems);
 			$('#minimumBid').val(minBid);
 			$('#itemDelivery').val(itemDelivery);
 			$('#itemDescription').val(itemDescription);
