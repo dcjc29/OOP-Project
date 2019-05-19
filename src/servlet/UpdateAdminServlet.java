@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AdminController;
 import model.User;
-import service.AdminService;
-import service.AdminServiceImpl;
+
 
 /**
  * Servlet implementation class UpdateAdminServlet
@@ -44,12 +44,12 @@ public class UpdateAdminServlet extends HttpServlet {
 		admin.setEmail(request.getParameter("email"));
 		admin.setMobileNo(request.getParameter("mobile"));
 		
-		AdminService adminService = new AdminServiceImpl();
+
 		
 
-		String message = adminService.updateAdmin(admin);
+		boolean message = AdminController.updateAdmin(admin);
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("adminEdit.jsp").forward(request, response);
 			
 		}

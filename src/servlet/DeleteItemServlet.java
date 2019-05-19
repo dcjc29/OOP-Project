@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.ItemController;
 import model.Item;
 import service.ItemService;
 import service.ItemServiceImpl;
@@ -40,11 +41,10 @@ public class DeleteItemServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		Item item=new Item();
-		ItemService itemService = new ItemServiceImpl();
 		item.setItemId(Integer.parseInt(request.getParameter("iId")));
-		String message =itemService.deleteItem(item);
+		boolean message =ItemController.deleteItem(item);
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else {

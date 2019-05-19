@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.BidController;
 import model.Bid;
-import service.BidService;
-import service.BidServiceImpl;
+
 
 /**
  * Servlet implementation class DeleteBidServlet
@@ -39,15 +39,15 @@ public class DeleteBidServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Bid bid = new Bid();
-		BidService bidService = new BidServiceImpl();
+		
 		
 		bid.setItemID( Integer.parseInt(request.getParameter("iId")));
 		bid.setBidderID((int) request.getSession(false).getAttribute("currentUser"));
 		
-		String message = bidService.deleteBid(bid);
+		boolean message = BidController.deleteBid(bid);
 		
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
 			
 		}

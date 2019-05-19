@@ -1,9 +1,9 @@
 package service;
 
 public interface ServiceFactory {
-	 public enum ServiceType {
-	        ADMIN, CUSTOMER, EMPLOYEE, ITEM, ORDER, ORDERDETAIL
-	    }
+    public enum ServiceType {
+        ADMIN, ITEM, BID, USER
+    }
 
-	    public SuperService getService(ServiceType serviceType)throws Exception;
+    public SuperService getService(ServiceType serviceType);
 }

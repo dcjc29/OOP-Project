@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.UserController;
 
 import javax.mail.Message;
 import javax.mail.Session;
@@ -18,8 +19,6 @@ import javax.mail.internet.MimeMessage;
 
 
 import model.User;
-import service.UserService;
-import service.UserServiceImpl;
 import util.security;
 
 /**
@@ -55,7 +54,6 @@ public class RegistrationServlet extends HttpServlet {
 		String input = request.getParameter("inputPassword");
 		byte[] salt = security.createSalt();
 		String password = security.generateHash(input, salt);
-		UserService userService = new UserServiceImpl();
 		
 		User user = new User();
 		
@@ -68,12 +66,12 @@ public class RegistrationServlet extends HttpServlet {
 		
 
 		
-		int id = userService.addUser(user,salt);
+		int id = UserController.addUser(user,salt);
 		
 		
 		if(id!=0) {
 			
-			user = userService.getUserById(id);
+			user = UserController.getUserById(id);
 			
 			//Mail function begins
 			Properties props = new Properties();

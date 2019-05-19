@@ -19,7 +19,7 @@ import util.QueryUtil;
 
 public class UserServiceImpl implements UserService {
 
-	DBConnectionUtil db = new DBConnectionUtil();
+	static DBConnectionUtil db;
 	Connection conn = db.getDBConnection();
 	
 	static {
@@ -140,9 +140,9 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public String updateUser(User user) {
+	public boolean updateUser(User user) {
 		int i=0;
-		String status=null;
+		boolean status = false;
 		
 		int userId=user.getId();
 		String userName=user.getUserName();
@@ -181,10 +181,10 @@ public class UserServiceImpl implements UserService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}
@@ -269,9 +269,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String deleteUser(int userId) {
+	public boolean deleteUser(int userId) {
 		int i = 0;
-		String status=null;
+		boolean status = false;
 		
 		
 		
@@ -295,10 +295,10 @@ public class UserServiceImpl implements UserService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}

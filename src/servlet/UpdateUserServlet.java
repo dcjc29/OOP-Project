@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.UserController;
 import model.User;
-import service.UserService;
-import service.UserServiceImpl;
 
 /**
  * Servlet implementation class UpdateUserServlet
@@ -38,7 +37,7 @@ public class UpdateUserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UserService userService = new UserServiceImpl();
+		
 		User user = new User();
 		
 		user.setId((int)request.getSession().getAttribute("currentUser"));
@@ -49,9 +48,9 @@ public class UpdateUserServlet extends HttpServlet {
 		
 
 		
-		String message = userService.updateUser(user);
+		boolean message = UserController.updateUser(user);
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else {

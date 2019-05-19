@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AdminController;
 import model.User;
-import service.AdminService;
-import service.AdminServiceImpl;
 import util.security;
 
 /**
@@ -41,6 +40,7 @@ public class AddAdminServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		security security = new security();
 		
+		int id= (int)request.getSession().getAttribute("currentUser");
 		String input = request.getParameter("password");
 		byte[] salt = security.createSalt();
 		String password = security.generateHash(input, salt);
@@ -53,11 +53,10 @@ public class AddAdminServlet extends HttpServlet {
 		user.setMobileNo(request.getParameter("mobile"));
 		
 		
-		AdminService adminService = new AdminServiceImpl();
 		
 		
-		String message = adminService.addAdmin(user,salt,0);	
-		if(message.equals("success")) {
+		boolean message = AdminController.addAdmin(user,salt,id);	
+		if(message==true) {
 			request.getRequestDispatcher("adminPanel.jsp").forward(request, response);
 		}
 		else {

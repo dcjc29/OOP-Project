@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.BidController;
+import controller.ItemController;
 import model.Bid;
 import model.Item;
 import model.Payment;
-import service.BidService;
-import service.BidServiceImpl;
-import service.ItemService;
-import service.ItemServiceImpl;
 
 /**
  * Servlet implementation class MyBidWarsServlet
@@ -43,9 +41,9 @@ public class MyBidWarsServlet extends HttpServlet {
 		req = request.getParameter("value");
 		if(req.equals("myItems")) {
 			
-			ItemService itemService = new ItemServiceImpl();
-	
-			ArrayList<Item> list =itemService.getItemsByUserId(id);
+			
+			
+			ArrayList<Item> list = ItemController.getItemsByUserId(id);
 			
 			request.setAttribute("items", list);
 			request.getRequestDispatcher("myItems.jsp").forward(request, response);
@@ -54,9 +52,8 @@ public class MyBidWarsServlet extends HttpServlet {
 		
 		if(req.equals("myBids")) {
 			
-			BidService bidService = new BidServiceImpl();
 		
-			ArrayList<Bid> list =bidService.getBidsByUserId(id);
+			ArrayList<Bid> list =BidController.getBidsByUserId(id);
 			
 			request.setAttribute("bids", list);
 			request.getRequestDispatcher("myBids.jsp").forward(request, response);
@@ -65,9 +62,8 @@ public class MyBidWarsServlet extends HttpServlet {
 	
 		if(req.equals("myWonItems")) {
 			
-			BidService bidService = new BidServiceImpl();
-		
-			ArrayList<Bid> list =bidService.getWonBidsByUserId(id);
+			
+			ArrayList<Bid> list = BidController.getWonBidsByUserId(id);
 			
 			request.setAttribute("wonbids", list);
 			request.getRequestDispatcher("myWonItems.jsp").forward(request, response);
@@ -75,9 +71,8 @@ public class MyBidWarsServlet extends HttpServlet {
 		
 			if(req.equals("myPayments")) {
 			
-			BidService bidService = new BidServiceImpl();
 		
-			ArrayList<Payment> list =bidService.getPaymentsByUserId(id);
+			ArrayList<Payment> list =BidController.getPaymentsByUserId(id);
 			
 			request.setAttribute("payments", list);
 			request.getRequestDispatcher("myPayments.jsp").forward(request, response);

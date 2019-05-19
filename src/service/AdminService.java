@@ -6,10 +6,10 @@ import model.User;
 
 public interface AdminService extends SuperService{
 
-	String addAdmin(User user, byte[] salt,int admin);
+	boolean addAdmin(User user, byte[] salt,int admin);
 	ArrayList<User> getAllAdmins();
 	User getAdminById(int id);
-	String updateAdmin(User admin);
-	String deleteAdmin(int adminId);
+	boolean updateAdmin(User admin);
+	boolean deleteAdmin(int adminId);
 
 }

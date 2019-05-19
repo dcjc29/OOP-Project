@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.AdminService;
-import service.AdminServiceImpl;
-import service.UserService;
-import service.UserServiceImpl;
+import controller.UserController;
+
 
 /**
  * Servlet implementation class DeleteUserServlet
@@ -42,10 +40,10 @@ public class DeleteUserServlet extends HttpServlet {
 	
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		
-		UserService userService = new UserServiceImpl();
-		String message = userService.deleteUser(userId);
 		
-		if(message.equals("success")) {
+		boolean message = UserController.deleteUser(userId);
+		
+		if(message==true) {
 			request.getRequestDispatcher("LogoutServlet").forward(request, response);
 			
 		}

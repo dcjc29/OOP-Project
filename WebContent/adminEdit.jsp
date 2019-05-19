@@ -133,8 +133,9 @@
 <!---------------------------------------------------------------------------------------------------------->
 
 	<%
-		AdminService adminService = new AdminServiceImpl();
+		
 		User administrator = new User();
+		AdminService adminService = new AdminServiceImpl();
 		administrator = adminService.getAdminById((int)request.getSession(false).getAttribute("currentUser"));
 	%>
   <form  method="POST" action="UpdateAdminServlet"  role="form">

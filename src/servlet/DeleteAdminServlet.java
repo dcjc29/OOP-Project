@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.AdminService;
-import service.AdminServiceImpl;
+import controller.AdminController;
+
 
 /**
  * Servlet implementation class DeleteAdminServlet
@@ -39,10 +39,11 @@ public class DeleteAdminServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int adminId = Integer.parseInt(request.getParameter("adminId"));
 		
-		AdminService adminService = new AdminServiceImpl();
-		String message = adminService.deleteAdmin(adminId);
+	
+		boolean message = AdminController.deleteAdmin(adminId);
 		
-		if(message.equals("success")) {
+		if(message==true) {
+			
 			request.getRequestDispatcher("adminPanel.jsp").forward(request, response);
 			
 		}

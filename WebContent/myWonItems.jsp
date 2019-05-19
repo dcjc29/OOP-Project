@@ -1,3 +1,6 @@
+
+<%@page import="service.ItemServiceImpl"%>
+<%@page import="service.ItemService"%>
 <%@page import="model.User"%>
 <%@page import="service.UserServiceImpl"%>
 <%@page import="service.UserService"%>
@@ -6,8 +9,6 @@
     <%@page import="java.util.*"%>
 <%@page import="model.Item"%>   
 <%@page import="model.Bid"%>  
-<%@page import="service.ItemService"%>  
-<%@page import="service.ItemServiceImpl"%> 
 <%@page import = "java.util.Base64" %>
 <!DOCTYPE html>
 <html>

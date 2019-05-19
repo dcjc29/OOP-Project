@@ -20,7 +20,7 @@ import util.QueryUtil;
 
 public class AdminServiceImpl implements AdminService {
 
-	DBConnectionUtil db = new DBConnectionUtil();
+	static DBConnectionUtil db;
 	Connection conn = db.getDBConnection();
 	private static java.sql.Statement statement;
 	static {
@@ -40,11 +40,11 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	
-	public String addAdmin(User user, byte[] salt,int admin) {
+	public boolean addAdmin(User user, byte[] salt,int admin) {
 
 		int i = 0;
 		String id=null;
-		String status=null;
+		boolean status=false;
 	
 			
 			
@@ -99,10 +99,10 @@ public class AdminServiceImpl implements AdminService {
 			}
 			
 			if(i!=0) {
-				 status ="success";
+				 status =true;
 			}
 			else {
-				status="Something Is Not Right!!!";
+				status=false;
 			}
 			return status;
 	}
@@ -206,9 +206,9 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
-	public String updateAdmin(User admin) {
+	public boolean updateAdmin(User admin) {
 		int i=0;
-		String status=null;
+		boolean status=false;
 		
 		int adminId=admin.getId();
 		String userName=admin.getUserName();
@@ -246,10 +246,10 @@ public class AdminServiceImpl implements AdminService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		
 		}
 		
@@ -262,9 +262,9 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
-	public String deleteAdmin(int adminId) {
+	public boolean deleteAdmin(int adminId) {
 		int i = 0;
-		String status=null;
+		boolean status=false;
 		
 		
 		
@@ -288,10 +288,10 @@ public class AdminServiceImpl implements AdminService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}

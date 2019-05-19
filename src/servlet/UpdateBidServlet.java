@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.BidController;
 import model.Bid;
-import service.BidService;
-import service.BidServiceImpl;
 
 /**
  * Servlet implementation class UpdateBidServlet
@@ -39,17 +38,16 @@ public class UpdateBidServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Bid bid = new Bid();
-		BidService bidService = new BidServiceImpl();
 		
 		bid.setItemID( Integer.parseInt(request.getParameter("itemId")));
 		bid.setBidderID((int) request.getSession(false).getAttribute("currentUser"));
 		bid.setBidAmount(Double.parseDouble(request.getParameter("bidAmount")));
 		bid.setMessage(request.getParameter("msg"));
 		
-		String message = bidService.updateBid(bid);
+		boolean message = BidController.updateBid(bid);
 		
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
 			
 		}

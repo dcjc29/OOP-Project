@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.Item;
 
 public interface SuperService<T,ID> {
+	
 	 	public void add(T t);
 
 	    public T getByID(ID id);

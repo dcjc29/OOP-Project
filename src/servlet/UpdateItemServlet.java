@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import controller.ItemController;
 import model.Item;
 import service.ItemService;
 import service.ItemServiceImpl;
@@ -46,7 +47,7 @@ public class UpdateItemServlet extends HttpServlet {
 		
 		
 		Item item = new Item();
-		ItemService itemService = new ItemServiceImpl();
+		
 		
 		item.setItemId(Integer.parseInt(request.getParameter("itemId")));
 		item.setItemTitle(request.getParameter("itemTitle"));
@@ -58,10 +59,10 @@ public class UpdateItemServlet extends HttpServlet {
 		item.setItemDelivery(request.getParameter("itemDelivery"));
 		item.setCategory(request.getParameter("itemCategory"));
 		
-		String message = itemService.updateItem(item);
+		boolean message = ItemController.updateItem(item);
 		
 	
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 			
 		}

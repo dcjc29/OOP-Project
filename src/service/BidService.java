@@ -1,25 +1,20 @@
 package service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
 import model.Bid;
-import model.Item;
 import model.Payment;
 
 public interface BidService extends SuperService {
 
-	String placeBid(Bid bid);
+	boolean placeBid(Bid bid);
 
 	ArrayList<Bid> getBidsByUserId(int id);
 	
 	ArrayList<Bid> getRecentBids();
 
-	String updateBid(Bid bid);
+	boolean updateBid(Bid bid);
 
-	String deleteBid(Bid bid);
+	boolean deleteBid(Bid bid);
 
 	ArrayList<Bid> getWonBidsByUserId(int id);
 

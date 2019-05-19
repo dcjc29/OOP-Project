@@ -1,7 +1,7 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.BidController;
 import model.Bid;
 import model.User;
-import service.BidService;
-import service.BidServiceImpl;
+
 
 /**
  * Servlet implementation class PlaceABidServlet
@@ -49,11 +49,11 @@ public class PlaceABidServlet extends HttpServlet {
 		bid.setMessage(request.getParameter("userMsg"));
 		bid.setBidAmount(Double.parseDouble(request.getParameter("amount")));
 		
-		BidService bidService = new BidServiceImpl();
-		String message=bidService.placeBid(bid);
+		
+		boolean message=BidController.placeBid(bid);
 		
 
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("MyBidWarsServlet?value=myBids").forward(request, response);
 		}
 		else {

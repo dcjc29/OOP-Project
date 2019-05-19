@@ -8,13 +8,13 @@ import model.User;
 
 public interface ItemService extends SuperService{
 
-	String addItem(Item item, InputStream in, User seller);
+	boolean addItem(Item item, InputStream in, User seller);
 
 	ArrayList<Item> getItemsByUserId(int id);
 
-	String updateItem(Item item);
+	boolean updateItem(Item item);
 
-	String deleteItem(Item item);
+	boolean deleteItem(Item item);
 
 	ArrayList<Item> getItemsBySearch(String category, String keywords);
 

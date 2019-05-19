@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import controller.ItemController;
 import model.Item;
 import model.User;
 import service.ItemService;
@@ -49,7 +50,7 @@ public class AddItemServlet extends HttpServlet {
 		
 		Item item = new Item();
 		User seller = new User();
-		ItemService itemService = new ItemServiceImpl();
+	
 		
 		seller.setId((int) request.getSession(false).getAttribute("currentUser"));
 		
@@ -67,9 +68,9 @@ public class AddItemServlet extends HttpServlet {
 		if(part != null ) {
 			in = part.getInputStream();
 		}
-		String message = itemService.addItem(item, in, seller);
+		boolean message = ItemController.addItem(item, in, seller);
 		
-		if(message.equals("success")) {
+		if(message==true) {
 			request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
 		else {

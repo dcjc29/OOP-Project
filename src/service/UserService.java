@@ -8,7 +8,7 @@ public interface UserService extends SuperService {
 
 	ArrayList<User> getAllUsers() ;
 	User getUserById(int id) ;
-	String updateUser(User user);
+	boolean updateUser(User user);
 	int addUser(User user, byte[] salt);
-	String deleteUser(int userId);
+	boolean deleteUser(int userId);
 }

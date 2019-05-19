@@ -25,7 +25,7 @@ import util.DBConnectionUtil;
 
 public class ItemServiceImpl implements ItemService {
 
-	static DBConnectionUtil db = new DBConnectionUtil();
+	static DBConnectionUtil db;
 	static Connection conn;
     private static PreparedStatement ps;
 	
@@ -46,10 +46,10 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	@Override
-	public String addItem(Item item,InputStream in,User seller) {
+	public boolean addItem(Item item,InputStream in,User seller) {
 		int i = 0;
 		String id=null;
-		String status=null;
+		boolean status;
 	
 		
 		
@@ -109,10 +109,10 @@ public class ItemServiceImpl implements ItemService {
 		}
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		return status;
 }
@@ -163,9 +163,9 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	@Override
-	public String deleteItem(Item item) {
+	public boolean deleteItem(Item item) {
 		int i = 0;
-		String status=null;
+		boolean status;
 		int itemId=item.getItemId();
 		
 		
@@ -190,10 +190,10 @@ public class ItemServiceImpl implements ItemService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}
@@ -204,11 +204,11 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public String updateItem(Item item) {
+	public boolean updateItem(Item item) {
 		
 	
 		int i=0;
-		String status=null;
+		boolean status;
 		
 		int itemId=item.getItemId();
 		String itemTitle=item.getItemTitle();
@@ -252,10 +252,10 @@ public class ItemServiceImpl implements ItemService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}

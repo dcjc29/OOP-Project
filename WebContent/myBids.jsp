@@ -1,3 +1,4 @@
+
 <%@page import="service.ItemServiceImpl"%>
 <%@page import="service.ItemService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -46,7 +47,7 @@ $(document).ready( function () {
 <body>
 <jsp:include page="navbar.jsp"></jsp:include>
 <jsp:include page="header.jsp"></jsp:include>
- <h2 class="h1-responsive font-weight-bold text-center my-5">My Items</h2>
+ <h2 class="h1-responsive font-weight-bold text-center my-5">My Bids</h2>
 
 <div class="wrapper-editor">
 

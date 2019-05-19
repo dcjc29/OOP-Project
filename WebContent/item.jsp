@@ -1,7 +1,8 @@
+
+<%@page import="service.ItemServiceImpl"%>
+<%@page import="service.ItemService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="service.ItemService"%>
-<%@page import="service.ItemServiceImpl"%>
 <%@page import="model.Item"%>   
 <%@page import = "java.util.Base64" %>
 <!DOCTYPE html>
@@ -25,9 +26,8 @@
  <h2 class="h1-responsive font-weight-bold text-center my-5">Place A Bid</h2>
 <%
 	Item item=new Item();
-	ItemService itemService = new ItemServiceImpl();
 	int id=(Integer.parseInt(request.getParameter("id")));
-	
+	ItemService itemService = new ItemServiceImpl();
 	item = itemService.getItemByID(id);
 
 	 byte[] imgData = item.getItemIn().getBytes(1,(int) item.getItemIn().length());

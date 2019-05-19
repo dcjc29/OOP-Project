@@ -24,7 +24,7 @@ import util.QueryUtil;
 public class BidServiceImpl implements BidService {
 
 
-	static DBConnectionUtil db = new DBConnectionUtil();
+	static DBConnectionUtil db;
 	static Connection conn;
     private static PreparedStatement ps;
 	
@@ -85,11 +85,11 @@ public class BidServiceImpl implements BidService {
 		return null;
 	}
 
-	public String placeBid(Bid bid) {
+	public boolean placeBid(Bid bid) {
 		
 		int i = 0;
 		String id=null;
-		String status=null;
+		boolean status=false;
 
 		int itemId = bid.getItemID();
 		int bidderId = bid.getBidderID();
@@ -136,10 +136,10 @@ public class BidServiceImpl implements BidService {
 		}
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		return status;
 	}
@@ -210,9 +210,9 @@ public class BidServiceImpl implements BidService {
 	}
 
 	@Override
-	public String updateBid(Bid bid) {
+	public boolean updateBid(Bid bid) {
 		int i=0;
-		String status=null;
+		boolean status=false;
 		
 		int itemId= bid.getItemID();
 		int bidderId= bid.getBidderID();
@@ -247,10 +247,10 @@ public class BidServiceImpl implements BidService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}
@@ -259,9 +259,9 @@ public class BidServiceImpl implements BidService {
 	}
 
 	@Override
-	public String deleteBid(Bid bid) {
+	public boolean deleteBid(Bid bid) {
 		int i = 0;
-		String status = null;
+		boolean status = false;
 		int itemId = bid.getItemID();
 		int bidderId = bid.getBidderID(); 
 		
@@ -288,10 +288,10 @@ public class BidServiceImpl implements BidService {
 		
 		
 		if(i!=0) {
-			 status ="success";
+			 status =true;
 		}
 		else {
-			status="Something Is Not Right!!!";
+			status=false;
 		}
 		
 	}

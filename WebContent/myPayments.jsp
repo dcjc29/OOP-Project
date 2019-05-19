@@ -1,11 +1,12 @@
+
+<%@page import="service.ItemServiceImpl"%>
+<%@page import="service.ItemService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="java.util.*"%>
 <%@page import="model.Item"%>
 <%@page import="model.Payment"%>
 <%@page import="model.User"%>    
-<%@page import="service.ItemService"%>
-<%@page import="service.ItemServiceImpl"%>
 <%@page import="service.UserService"%>
 <%@page import="service.UserServiceImpl"%>      
 <%@page import = "java.util.Base64" %>
@@ -69,7 +70,7 @@ $(document).ready( function () {
 		for(Payment pay: list){
 			Item item = new Item();
 			User user = new User();
-			ItemService itemService = new ItemServiceImpl();
+			ItemService itemService=new ItemServiceImpl();
 			item = itemService.getItemByID(pay.getItem());
 			UserService userService = new UserServiceImpl();
 			user = userService.getUserById(item.getSeller());

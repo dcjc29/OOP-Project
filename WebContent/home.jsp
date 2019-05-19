@@ -1,12 +1,11 @@
 
 
-
+<%@page import="service.ItemServiceImpl"%>
+<%@page import="service.ItemService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
 <%@page import="model.Item"%>    
-<%@page import="service.ItemService"%>
-<%@page import="service.ItemServiceImpl"%>
 <%@page import="model.Bid"%>    
 <%@page import="service.BidService"%>
 <%@page import="service.BidServiceImpl"%>
@@ -128,7 +127,7 @@
          
          	 
  <%	
- 		ItemService  itemService = new ItemServiceImpl();
+ 		ItemService itemService=new ItemServiceImpl();
     	ArrayList<Item> itemList = itemService.getRecentItems();
     	if(itemList!=null){
     		for(Item item:itemList){

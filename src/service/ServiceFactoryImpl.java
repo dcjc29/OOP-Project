@@ -4,7 +4,7 @@ public class ServiceFactoryImpl implements ServiceFactory {
 
     private static ServiceFactory serviceFactory;
 
-    public ServiceFactoryImpl() {
+    private ServiceFactoryImpl() {
     }
 
     public static ServiceFactory getInstance(){
@@ -14,10 +14,12 @@ public class ServiceFactoryImpl implements ServiceFactory {
     }
 
     @Override
-    public SuperService getService(ServiceType serviceType) throws Exception {
+    public SuperService getService(ServiceType serviceType) {
         switch (serviceType){
-        
+            case ADMIN: return new AdminServiceImpl();
             case ITEM: return new ItemServiceImpl();
+            case USER: return new UserServiceImpl();
+            case BID: return new BidServiceImpl();
             default: return null;
         }
     }

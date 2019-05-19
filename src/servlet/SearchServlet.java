@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.ItemController;
 import model.Item;
-import service.ItemService;
-import service.ItemServiceImpl;
 
 /**
  * Servlet implementation class SearchServlet
@@ -38,17 +37,17 @@ public class SearchServlet extends HttpServlet {
 		String keywords = request.getParameter("inputKeyword");
 		
 
-		ItemService itemService = new ItemServiceImpl();
+		
 		ArrayList<Item> list = new ArrayList<Item>();
 		
 		if(!category.isEmpty() && !keywords.isEmpty()) {
-			list =itemService.getItemsBySearch(category,keywords);
+			list =ItemController.getItemsBySearch(category,keywords);
 		}
 		else if(category.isEmpty() && !keywords.isEmpty()) {
-			list =itemService.getItemsBySearch(keywords);
+			list =ItemController.getItemsBySearch(keywords);
 		}
 		else if(!category.isEmpty() && keywords.isEmpty()) {
-			list =itemService.getItemsByCategory(category);
+			list =ItemController.getItemsByCategory(category);
 		}
 		else {
 			//Nothing Get To The List
