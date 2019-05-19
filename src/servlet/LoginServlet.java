@@ -1,11 +1,10 @@
 package servlet;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
-import javax.annotation.Generated;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,9 +58,23 @@ public class LoginServlet extends HttpServlet {
 			
 			if(user.isValid()) {
 				HttpSession session = request.getSession(true);
-
 				session.setAttribute("currentUser", user.getId());
 				session.setAttribute("Name", user.getName());
+				
+				 final String ACCOUNT_SID = "ACc265771ca633ed519136dd8b70c7d638";
+				    final String AUTH_TOKEN = "29d7518df35ac1e50c7e32bb4b0f5809";
+
+			
+				        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+				        Message message = Message
+				                .creator(new PhoneNumber("+94714331418"), // to
+				                        new PhoneNumber("+19384448904"), // from
+				                        "You Have Logged Into You Account ")
+				                .create();
+
+				    
+				    
 				response.sendRedirect("home.jsp");
 			}
 			else {

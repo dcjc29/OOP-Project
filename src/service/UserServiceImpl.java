@@ -195,10 +195,11 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public String addUser(User user, byte[] salt) {
+	public int addUser(User user, byte[] salt) {
 		int i = 0;
 		String id=null;
 		String status=null;
+		int uId=0;
 	
 			
 			String[] name = user.getName().split(" ");
@@ -230,7 +231,7 @@ public class UserServiceImpl implements UserService {
 						}
 						
 					}
-					int uId=Integer.parseInt(id)+1;
+					uId=Integer.parseInt(id)+1;
 					PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_INSERT_USER));
 					ps.setInt(1, uId);;
 					ps.setString(2, uName);
@@ -258,13 +259,13 @@ public class UserServiceImpl implements UserService {
 				
 			}
 			
+			int userId=0;
 			if(i!=0) {
-				 status ="success";
+				 userId = uId;
 			}
-			else {
-				status="Something Is Not Right!!!";
-			}
-			return status;
+			
+			
+			return userId;
 	}
 
 	@Override
