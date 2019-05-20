@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -19,8 +21,9 @@ import util.QueryUtil;
 
 public class UserServiceImpl implements UserService {
 
-	static DBConnectionUtil db;
-	Connection conn = db.getDBConnection();
+	public static final Logger log = Logger.getLogger(UserServiceImpl.class.getName());
+	private static Connection conn;
+	
 	
 	static {
 		createUsersTable();
@@ -29,13 +32,13 @@ public class UserServiceImpl implements UserService {
 
 	private static void createUsersTable() {
 		try {
-			Connection connection = null;
+			conn = DBConnectionUtil.getDBConnection();
 		    Statement statement;
 		    
-		    statement = connection.createStatement();
+		    statement = conn.createStatement();
 			statement.executeUpdate(QueryUtil.queryByID(CommonConstants.CREATE_USERS_TABLE));
 		}catch(Exception e) {
-			
+			log.log(Level.SEVERE, e.getMessage());
 		}
 		
 	}
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 		ArrayList<User> list=new ArrayList<User>();
 	
-		
+		conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -67,9 +70,11 @@ public class UserServiceImpl implements UserService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
-			
 		}
 		
 		return list;
@@ -79,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserById(int id) {
 
 		User user = new User();
-	
+		conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -99,9 +104,11 @@ public class UserServiceImpl implements UserService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
-			
 		}
 		
 		return user;
@@ -151,7 +158,7 @@ public class UserServiceImpl implements UserService {
 		String mobile = user.getMobileNo();
 		
 	
-		
+		conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			
@@ -174,9 +181,11 @@ public class UserServiceImpl implements UserService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 				
 			}
-			
 			
 		
 		
@@ -211,7 +220,7 @@ public class UserServiceImpl implements UserService {
 		
 			
 			
-			
+			conn = DBConnectionUtil.getDBConnection();
 			
 		
 			if(conn!=null) {
@@ -254,6 +263,9 @@ public class UserServiceImpl implements UserService {
 					
 				
 				} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+					log.log(Level.SEVERE, e.getMessage());	
+				}finally {
+			
 					
 				}
 				
@@ -273,7 +285,7 @@ public class UserServiceImpl implements UserService {
 		int i = 0;
 		boolean status = false;
 		
-		
+		conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			
@@ -288,9 +300,11 @@ public class UserServiceImpl implements UserService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 				
 			}
-			
 			
 		
 		

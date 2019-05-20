@@ -18,6 +18,7 @@ public class ItemController {
     }
 
     public static boolean updateItem(Item item){
+    	System.out.println("I am in");
         ItemService itemService = (ItemService) ServiceFactoryImpl.getInstance()
                 .getService(ServiceFactory.ServiceType.ITEM);
         return itemService.updateItem(item);

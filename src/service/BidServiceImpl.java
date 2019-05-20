@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -15,19 +17,20 @@ import org.xml.sax.SAXException;
 
 
 import model.Bid;
-import model.Item;
 import model.Payment;
 import util.CommonConstants;
 import util.DBConnectionUtil;
 import util.QueryUtil;
 
 public class BidServiceImpl implements BidService {
+	public static final Logger log = Logger.getLogger(BidServiceImpl.class.getName());
 
-
-	static DBConnectionUtil db;
-	static Connection conn;
-    private static PreparedStatement ps;
 	
+	private static Connection conn;
+    private static PreparedStatement ps;
+    
+   
+    
 	static {
 		createBidsTable();
 		createPaymentsTable();
@@ -35,10 +38,13 @@ public class BidServiceImpl implements BidService {
 	
 	private static void createBidsTable() {
 		try {
-			conn = db.getDBConnection();
+		    conn = DBConnectionUtil.getDBConnection();
 			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_BIDS_TABLE));
 			ps.executeUpdate();
 		}catch(Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
+		}finally {
+			
 			
 		}
 		
@@ -46,10 +52,12 @@ public class BidServiceImpl implements BidService {
 	
 	private static void createPaymentsTable() {
 		try {
-			conn = db.getDBConnection();
+			conn = DBConnectionUtil.getDBConnection();
 			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_PAYMENTS_TABLE));
 			ps.executeUpdate();
 		}catch(Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
+		}finally {
 			
 		}
 		
@@ -95,7 +103,7 @@ public class BidServiceImpl implements BidService {
 		int bidderId = bid.getBidderID();
 		String msg = bid.getMessage();
 		Double bidAmount = bid.getBidAmount();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		
 		
@@ -103,7 +111,7 @@ public class BidServiceImpl implements BidService {
 			
 			
 			try {
-				
+			   
 				PreparedStatement pre = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_BID_ID_MAX));
 				ResultSet rs=pre.executeQuery();
 				while(rs.next()) {
@@ -129,7 +137,10 @@ public class BidServiceImpl implements BidService {
 				
 			
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
 				
+			
 			}
 			
 			
@@ -148,7 +159,7 @@ public class BidServiceImpl implements BidService {
 	public ArrayList<Bid> getBidsByUserId(int id) {
 			
 		ArrayList<Bid> list=new ArrayList<Bid>();
-		
+	    conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -170,7 +181,10 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
+				
 			}
 			
 		}
@@ -181,7 +195,7 @@ public class BidServiceImpl implements BidService {
 	public ArrayList<Bid> getRecentBids() {
 		
 		ArrayList<Bid> list=new ArrayList<Bid>();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -201,7 +215,10 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
+				
 			}
 			
 		}
@@ -219,7 +236,7 @@ public class BidServiceImpl implements BidService {
 		Double bidAmount= bid.getBidAmount();
 		String msg=	bid.getMessage();
 		
-	
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		
 		if(conn!=null) {
@@ -240,6 +257,8 @@ public class BidServiceImpl implements BidService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
 				
 			}
 			
@@ -266,7 +285,7 @@ public class BidServiceImpl implements BidService {
 		int bidderId = bid.getBidderID(); 
 		
 		
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		if(conn!=null) {
 			
 			
@@ -281,7 +300,10 @@ public class BidServiceImpl implements BidService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
 				
+			
 			}
 			
 			
@@ -303,7 +325,7 @@ public class BidServiceImpl implements BidService {
 	public ArrayList<Bid> getWonBidsByUserId(int id) {
 		
 		ArrayList<Bid> list=new ArrayList<Bid>();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -325,7 +347,10 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
+				
 			}
 			
 		}
@@ -337,7 +362,7 @@ public class BidServiceImpl implements BidService {
 	public ArrayList<Payment> getPaymentsByUserId(int id) {
 		ArrayList<Payment> list=new ArrayList<Payment>();
 		
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		if(conn!=null) {
 			try {
 				PreparedStatement ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_PAYMENTS_BY_PAYERID));
@@ -362,7 +387,10 @@ public class BidServiceImpl implements BidService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
+				
 			}
 			
 		}
@@ -385,7 +413,7 @@ public class BidServiceImpl implements BidService {
 		Double amount = payment.getAmount();
 		Date date = payment.getDate();
 		
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		
 		if(conn!=null) {
@@ -408,6 +436,9 @@ public class BidServiceImpl implements BidService {
 				
 			
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
 				
 			}
 			

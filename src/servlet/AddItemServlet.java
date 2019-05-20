@@ -2,7 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -69,13 +69,27 @@ public class AddItemServlet extends HttpServlet {
 			in = part.getInputStream();
 		}
 		boolean message = ItemController.addItem(item, in, seller);
+		PrintWriter out = response.getWriter();
 		
 		if(message==true) {
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+			out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+			out.println("<script>");
+			out.println("$(document).ready(function(){");
+			out.println("swal ( 'Successfull' ,  'You Have Added An Item' ,  'success' );");
+			out.println("});");
+			out.println("</script>");
+			request.getRequestDispatcher("home.jsp").include(request, response);
 		}
 		else {
-			request.setAttribute("errorMessage", message);
-			request.getRequestDispatcher("AddItem.jsp").forward(request, response);
+			out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+			out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+			out.println("<script>");
+			out.println("$(document).ready(function(){");
+			out.println("swal ( 'Unsuccessfull' ,  'Something Went Wrong' ,  'danger' );");
+			out.println("});");
+			out.println("</script>");
+			request.getRequestDispatcher("AddItem.jsp").include(request, response);
 		}
 	}
 

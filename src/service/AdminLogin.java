@@ -15,7 +15,7 @@ public class AdminLogin {
 
 	public static User login(User user) {
 		
-		DBConnectionUtil db = new DBConnectionUtil();
+		DBConnectionUtil db = null;
 		
 		Connection conn = db.getDBConnection();
 		
@@ -78,7 +78,7 @@ public class AdminLogin {
 
 	public static byte[] getSalt(String userName) {
 		byte[] userSalt = null;
-		DBConnectionUtil db = new DBConnectionUtil();
+		DBConnectionUtil db = null;
 		Connection conn = db.getDBConnection();
 		String query = "select * from admin where username=?";
 		if(conn!=null) {

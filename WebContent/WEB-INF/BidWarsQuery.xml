@@ -59,7 +59,7 @@
 	<!-- Update a particular item by id Query -->
 	<query id="update_item">
          <![CDATA[        
-            UPDATE items SET title=?,noOfItems=?,itemsCondition=?,category=?,description=?,deliveryMethod=?,minBid=?,startDate=?,endDate=? where id=?
+            UPDATE items SET title=?,itemsCondition=?,category=?,description=?,deliveryMethod=?,minBid=?,startDate=?,endDate=? where id=?
         ]]>
 	</query>
 	

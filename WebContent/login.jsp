@@ -37,7 +37,7 @@ function validate()
 }
 </script> 
 </head>
-<body>
+<body style="padding-top: 75px">
  <jsp:include page="navbar.jsp"></jsp:include>
     <div class="container justify-content-center">
     <div class="row">

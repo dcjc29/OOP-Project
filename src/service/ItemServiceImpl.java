@@ -8,25 +8,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.mysql.jdbc.Blob;
+
 import util.CommonConstants;
 import util.QueryUtil;
 
 import model.Item;
 import model.User;
-import sun.misc.BASE64Encoder;
 import util.DBConnectionUtil;
 
 
 public class ItemServiceImpl implements ItemService {
-
-	static DBConnectionUtil db;
-	static Connection conn;
+	
+	public static final Logger log = Logger.getLogger(ItemServiceImpl.class.getName());
+	
+	private static Connection conn;
     private static PreparedStatement ps;
 	
 	static {
@@ -36,11 +38,11 @@ public class ItemServiceImpl implements ItemService {
 
 	private static void createItemsTable() {
 		try {
-			conn = db.getDBConnection();
+			conn = DBConnectionUtil.getDBConnection();
 			ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.CREATE_ITEM_TABLE));
 			ps.executeUpdate();
 		}catch(Exception e) {
-			
+			log.log(Level.SEVERE, e.getMessage());
 		}
 		
 	}
@@ -63,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
 		String startDate=item.getStartDate();
 		String endDate=item.getEndDate();
 		int sellerId=seller.getId();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 	
 		
 		if(conn!=null) {
@@ -102,9 +104,11 @@ public class ItemServiceImpl implements ItemService {
 				
 			
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 				
 			}
-			
 			
 		}
 		
@@ -127,7 +131,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		
 		ArrayList<Item> list=new ArrayList<Item>();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -154,7 +158,9 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 			}
 			
 		}
@@ -165,10 +171,10 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public boolean deleteItem(Item item) {
 		int i = 0;
-		boolean status;
+		boolean status=false;
 		int itemId=item.getItemId();
 		
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			
@@ -183,9 +189,11 @@ public class ItemServiceImpl implements ItemService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 				
 			}
-			
 			
 		
 		
@@ -208,7 +216,7 @@ public class ItemServiceImpl implements ItemService {
 		
 	
 		int i=0;
-		boolean status;
+		boolean status=false;
 		
 		int itemId=item.getItemId();
 		String itemTitle=item.getItemTitle();
@@ -219,13 +227,13 @@ public class ItemServiceImpl implements ItemService {
 		double minBid=item.getMinBid();
 		String startDate=item.getStartDate();
 		String endDate=item.getEndDate();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			
 			
 			try {
-			
+				
 					ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_UPDATE_ITEM));
 					
 					ps.setString(1, itemTitle);
@@ -245,9 +253,11 @@ public class ItemServiceImpl implements ItemService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
 				
 			}
-			
 			
 		
 		
@@ -269,7 +279,7 @@ public class ItemServiceImpl implements ItemService {
 	public ArrayList<Item> getItemsBySearch(String category, String keywords) {
 			
 				ArrayList<Item> list=new ArrayList<Item>();
-				
+				 conn = DBConnectionUtil.getDBConnection();
 				String query = "select * from items where category=('"+category+"') AND (title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%'))";
 				if(conn!=null) {
 					try {
@@ -296,9 +306,11 @@ public class ItemServiceImpl implements ItemService {
 						}
 						
 					} catch (SQLException e) {
-						e.printStackTrace();
+						log.log(Level.SEVERE, e.getMessage());	
+					}finally {
+				
+						
 					}
-					
 				}
 				
 				return list;
@@ -310,7 +322,7 @@ public class ItemServiceImpl implements ItemService {
 	public ArrayList<Item> getItemsBySearch(String keywords) {
 
 		ArrayList<Item> list=new ArrayList<Item>();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		String query = "select * from items where title LIKE('%"+keywords+"%')OR description LIKE ('%"+keywords+"%')";
 		if(conn!=null) {
 			try {
@@ -337,9 +349,11 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			} catch (SQLException  e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
-			
 		}
 		
 		return list;
@@ -353,7 +367,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		ArrayList<Item> list=new ArrayList<Item>();
 		String query = "select * from items where category=('"+category+"')";
-		
+		 conn = DBConnectionUtil.getDBConnection();
 		if(conn!=null) {
 			try {
 				ps = conn.prepareStatement(query);
@@ -378,9 +392,11 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			} catch (SQLException  e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
-			
 		}
 		
 		return list;
@@ -401,6 +417,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		
 		Item item=new Item();
+		 conn = DBConnectionUtil.getDBConnection();
 		if(conn!=null) {
 			try {
 				ps = conn.prepareStatement(QueryUtil.queryByID(CommonConstants.QUERY_ID_ITEM_BY_ID));
@@ -421,9 +438,11 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
-			
 		}
 		
 		return item;
@@ -433,7 +452,7 @@ public class ItemServiceImpl implements ItemService {
 	public ArrayList<Item> getRecentItems() {
 		
 		ArrayList<Item> list=new ArrayList<Item>();
-		
+		 conn = DBConnectionUtil.getDBConnection();
 	
 		
 		if(conn!=null) {
@@ -459,7 +478,10 @@ public class ItemServiceImpl implements ItemService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());	
+			}finally {
+		
+				
 			}
 			
 		}

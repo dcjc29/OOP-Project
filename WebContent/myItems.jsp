@@ -22,10 +22,11 @@
   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
   crossorigin="anonymous"></script>
 
- 
 <script type="text/javascript" src="js/addons/datatables.min.js"></script>
 
+<script>
 
+</script>
 
 <script>
 $(document).ready( function () {
@@ -255,5 +256,6 @@ $(document).ready( function () {
 	});
 
 </script>
+
 </body>
 </html>

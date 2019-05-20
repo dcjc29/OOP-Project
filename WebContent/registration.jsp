@@ -21,7 +21,7 @@
   <link href="css/style.css" rel="stylesheet">
   
 </head>
-<body>
+<body style="padding-top: 75px;">
 <jsp:include page="navbar.jsp"></jsp:include>
     <div class="container justify-content-center">
     

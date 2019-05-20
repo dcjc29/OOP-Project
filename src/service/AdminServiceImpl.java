@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import model.Item;
+
 import model.User;
 import util.CommonConstants;
 import util.DBConnectionUtil;
@@ -20,22 +22,23 @@ import util.QueryUtil;
 
 public class AdminServiceImpl implements AdminService {
 
-	static DBConnectionUtil db;
-	Connection conn = db.getDBConnection();
-	private static java.sql.Statement statement;
+	public static final Logger log = Logger.getLogger(AdminServiceImpl.class.getName());
+	private static Connection conn;
+
+
 	static {
 		createAdminTable();
 	}
 	
 	private static void createAdminTable() {
 		try {
-			Connection connection = null;
+			conn = DBConnectionUtil.getDBConnection();
 		    Statement statement;
 		    
-		    statement = connection.createStatement();
+		    statement = conn.createStatement();
 			statement.executeUpdate(QueryUtil.queryByID(CommonConstants.CREATE_ADMIN_TABLE));
 		}catch(Exception e) {
-			
+			log.log(Level.SEVERE, e.getMessage());
 		}
 		
 	}
@@ -53,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
 			String mobile = user.getMobileNo();
 			String userEmail = user.getEmail();
 		
-			
+			conn = DBConnectionUtil.getDBConnection();
 			
 		
 			
@@ -93,6 +96,9 @@ public class AdminServiceImpl implements AdminService {
 					
 				
 				} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+					log.log(Level.SEVERE, e.getMessage());	
+				}finally {
+			
 					
 				}
 				
@@ -111,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<User> getAllAdmins() {
 
 		ArrayList<User> list=new ArrayList<User>();
-	
+		conn = DBConnectionUtil.getDBConnection();
 		
 		
 		if(conn!=null) {
@@ -135,6 +141,9 @@ public class AdminServiceImpl implements AdminService {
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
 				e.printStackTrace();
+			}finally {
+				
+				
 			}
 			
 		}
@@ -146,7 +155,7 @@ public class AdminServiceImpl implements AdminService {
 
 		
 		User admin = new User();
-		
+		conn = DBConnectionUtil.getDBConnection();
 		
 		if(conn!=null) {
 			try {
@@ -164,7 +173,9 @@ public class AdminServiceImpl implements AdminService {
 				}
 				
 			} catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
 			}
 			
 		}
@@ -216,7 +227,7 @@ public class AdminServiceImpl implements AdminService {
 		String mobile=admin.getMobileNo();
 		
 		
-	
+		conn = DBConnectionUtil.getDBConnection();
 		
 		
 		if(conn!=null) {
@@ -239,6 +250,9 @@ public class AdminServiceImpl implements AdminService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
 				
 			}
 			
@@ -265,7 +279,7 @@ public class AdminServiceImpl implements AdminService {
 	public boolean deleteAdmin(int adminId) {
 		int i = 0;
 		boolean status=false;
-		
+		conn = DBConnectionUtil.getDBConnection();
 		
 		
 		if(conn!=null) {
@@ -281,6 +295,9 @@ public class AdminServiceImpl implements AdminService {
 				
 			
 			catch (SQLException | SAXException | IOException | ParserConfigurationException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}finally {
+				
 				
 			}
 			
