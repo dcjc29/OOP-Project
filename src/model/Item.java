@@ -1,6 +1,6 @@
 package model;
 
-import java.io.InputStream;
+
 import java.sql.Blob;
 
 public class Item {

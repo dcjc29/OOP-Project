@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("currentUser", user.getId());
 				session.setAttribute("Name", user.getName());
-				/*
+				
 				 final String ACCOUNT_SID = "ACc265771ca633ed519136dd8b70c7d638";
 				    final String AUTH_TOKEN = "29d7518df35ac1e50c7e32bb4b0f5809";
 
@@ -72,10 +72,10 @@ public class LoginServlet extends HttpServlet {
 				        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
 				        Message message = Message
-				                .creator(new PhoneNumber("+94714331418"), // to
+				                .creator(new PhoneNumber("+94"+user.getMobileNo()), // to
 				                        new PhoneNumber("+19384448904"), // from
 				                        "You Have Logged Into You Account ")
-				                .create();*/
+				                .create();
 
 				    
 				out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");

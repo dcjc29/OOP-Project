@@ -7,7 +7,7 @@
 <!-- Create table item Query -->
 	<query id="create_item_table">
         <![CDATA[
-            CREATE TABLE items(
+            CREATE TABLE IF NOT EXIST items(
 				id int(11) not null,
 				title varchar(45) not null,
 				itemsCondition int(11) not null,
@@ -111,7 +111,7 @@
 	<!-- Create table admin Query -->
 	<query id="create_admin_table">
         <![CDATA[
-            CREATE TABLE admin(
+            CREATE TABLE IF NOT EXIST admin(
 				id int(11) not null,
 				username varchar(20) not null,
 				password varchar(250) not null,
@@ -174,7 +174,7 @@
 	<!-- Create table users Query -->
 	<query id="create_users_table">
         <![CDATA[
-            CREATE TABLE users(
+            CREATE TABLE IF NOT EXIST users(
 				id int(11) not null,
 				userName varchar(20) not null,
 				userPass varchar(250) not null,
@@ -238,7 +238,7 @@
 	<!-- Create table bids Query -->
 	<query id="create_bids_table">
         <![CDATA[
-            CREATE TABLE bids(
+            CREATE TABLE IF NOT EXIST bids(
 				itemId int(11) not null,
 				customerId int(11) not null,
 				bidAmount DOUBLE not null,
@@ -310,7 +310,7 @@
 <!-- Create table payments Query -->
 	<query id="create_payments_table">
         <![CDATA[
-            CREATE TABLE payments(
+            CREATE TABLE IF NOT EXIST payments(
 				itemId int(11) not null,
 				payeeId int(11) not null,
 				payerId int(11) not null,
