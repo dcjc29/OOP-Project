@@ -1,4 +1,4 @@
-<img src="">
+<img src="https://github.com/dcjc29/OOP-Project/blob/master/WebContent/Images/DeepinScreenshot_select-area_20190520023002.png">
 
 <!-- [![FVCproductions](https://photos.app.goo.gl/MFcpryEjaGkDgp1EA)](http://fvcproductions.com) -->
 
@@ -12,7 +12,8 @@
 
 ***Home Page***
 
-[![INSERT YOUR GRAPHIC HERE](http://i.imgur.com/dt8AUb6.png)]()
+<img src="https://github.com/dcjc29/OOP-Project/blob/master/WebContent/Images/DeepinScreenshot_select-area_20190520024458.png">
+<!--[![INSERT YOUR GRAPHIC HERE](http://i.imgur.com/dt8AUb6.png)]()-->
 
  This is not a complete online bidding application.Some basic functionalities are covered in the project.
 
